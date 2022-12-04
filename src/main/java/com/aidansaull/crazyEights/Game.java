@@ -17,7 +17,7 @@ public class Game
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    List<Player> players;
+    public List<Player> players;
     private boolean started = false;
     List<Card> deck;
 
@@ -49,6 +49,7 @@ public class Game
 
     public void newGame()
     {
+        started = false;
         players = new ArrayList<Player>();
         deck = new ArrayList<Card>();
         shuffleDeck();
