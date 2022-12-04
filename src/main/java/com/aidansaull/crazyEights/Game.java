@@ -59,4 +59,9 @@ public class Game
     {
         return started;
     }
+
+    public Card drawCard()
+    {
+        return new Card();
+    }
 }
