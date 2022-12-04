@@ -104,7 +104,7 @@ public class Game
 
     private void shuffleDeck()
     {
-        List<Character> ranks = Arrays.asList('A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K');
+        List<Character> ranks = Arrays.asList('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K');
         List<Character> suits = Arrays.asList('H', 'S', 'C', 'D');
         for (Character rank : ranks)
         {
