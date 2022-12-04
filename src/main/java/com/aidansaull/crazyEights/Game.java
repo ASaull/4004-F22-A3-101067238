@@ -14,10 +14,11 @@ public class Game
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
 
-    public List<Player> players;
-    private boolean started = false;
+    List<Player> players;
+    boolean started = false;
     Stack<Card> deck;
-    public Stack<Card> discard;
+    Stack<Card> discard;
+    boolean direction;
 
     @PostConstruct
     void init()
@@ -44,6 +45,17 @@ public class Game
         dealHands();
         discard.push(drawNonEight());
         // We can now tell the players that the game has started
+        sendScore();
+    }
+
+    private void sendScore()
+    {
+        List<Integer> scores = new ArrayList<Integer>();
+        for (Player player : players)
+        {
+            scores.add(player.score);
+        }
+        Score score = new Score(direction, scores);
     }
 
     void sendToPlayer(Integer id, String destination, String message)
@@ -64,6 +76,7 @@ public class Game
         players = new ArrayList<Player>();
         deck = new Stack<Card>();
         discard = new Stack<Card>();
+        direction = true;
         shuffleDeck();
     }
 
