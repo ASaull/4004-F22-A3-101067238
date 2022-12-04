@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -125,5 +126,34 @@ public class GameUnitTest
         game.newGame();
         assertNotNull(game.direction);
         assertTrue(game.direction);
+    }
+
+    @Test
+    public void testPlayCard()
+    {
+        game.newGame();
+        addPlayersToGame();
+        game.discard.push(new Card('4', 'C'));
+        assertEquals(2, game.discard.size());
+        Player player = game.players.get(0);
+        player.hand.removeAll(player.hand);
+        player.addCard(new Card('5', 'C'));
+        player.addCard(new Card('5', 'H'));
+        player.addCard(new Card('8', 'D'));
+
+        // Will be true because this card exists and is playable
+        assertTrue(player.playCard('5', 'C'));
+
+        // Will be false because this card does not exist
+        assertFalse(player.playCard('5', 'C'));
+
+        // Will be false because this card is not playable
+        assertFalse(player.playCard('5', 'H'));
+
+        // Will be true because we can always play an 8
+        assertTrue(player.playCard('8', 'D'));
+
+        //check that cards have been played
+        assertEquals(4, game.discard.size());
     }
 }

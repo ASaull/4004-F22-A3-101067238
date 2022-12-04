@@ -42,4 +42,9 @@ public class Player
         String destination = "/queue/card";
         simpMessagingTemplate.convertAndSendToUser(username, destination, card);
     }
+
+    public boolean playCard(Character rank, Character suit)
+    {
+        return false;
+    }
 }
