@@ -88,7 +88,8 @@ function receiveScore(scoreJson)
 
     //Updating turn info
     currentPlayer = scoreJson["currentPlayer"]
-    console.log(scoreJson);
+    nextPlayer = (currentPlayer + 1)%4;
+    $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next.")
 
     $('#username').text('You are: Player ' + (parseInt(username)+1));
 }
