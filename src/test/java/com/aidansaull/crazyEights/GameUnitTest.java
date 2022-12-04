@@ -148,7 +148,7 @@ public class GameUnitTest
         assertFalse(player.playCard('5', 'C'));
 
         // Will be false because this card is not playable
-        assertFalse(player.playCard('5', 'H'));
+        assertFalse(player.playCard('6', 'H'));
 
         // Will be true because we can always play an 8
         assertTrue(player.playCard('8', 'D'));
