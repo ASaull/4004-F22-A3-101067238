@@ -105,4 +105,16 @@ public class GameUnitTest
         Card card = game.discard.peek();
         assertNotEquals('8', card.rank);
     }
+
+    @Test
+    public void testInitialScores()
+    {
+        game.newGame();
+        addPlayersToGame();
+        for (Player player : game.players)
+        {
+            assertNotNull(player.score);
+            assertEquals(0, player.score);
+        }
+    }
 }
