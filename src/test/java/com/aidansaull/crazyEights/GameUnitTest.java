@@ -42,10 +42,10 @@ public class GameUnitTest
         Card card = game.drawCard();
         List<Character> ranks = Arrays.asList('A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K');
 
-        assertTrue(Objects.equals(card.suit, "C")
-                || Objects.equals(card.suit, "H")
-                || Objects.equals(card.suit, "D")
-                || Objects.equals(card.suit, "S"));
+        assertTrue(Objects.equals(card.suit, 'C')
+                || Objects.equals(card.suit, 'H')
+                || Objects.equals(card.suit, 'D')
+                || Objects.equals(card.suit, 'S'));
         assertTrue(ranks.contains(card.rank));
     }
 }
