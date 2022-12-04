@@ -117,4 +117,12 @@ public class GameUnitTest
             assertEquals(0, player.score);
         }
     }
+
+    @Test
+    public void testInitialDirection()
+    {
+        game.newGame();
+        assertNotNull(game.direction);
+        assertTrue(game.direction);
+    }
 }
