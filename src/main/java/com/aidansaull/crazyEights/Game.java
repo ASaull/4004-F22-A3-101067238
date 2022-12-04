@@ -15,6 +15,7 @@ public class Game
     private SimpMessagingTemplate simpMessagingTemplate;
 
     List<Player> players;
+    private boolean started = false;
 
     @PostConstruct
     void init()
@@ -44,16 +45,18 @@ public class Game
 
     public void newGame()
     {
-
+        players = new ArrayList<Player>();
     }
 
     public void addPlayer(Player player)
     {
-
+        players.add(player);
+        if (players.size() == 4)
+            started = true;
     }
 
     public boolean isStarted()
     {
-        return false;
+        return started;
     }
 }
