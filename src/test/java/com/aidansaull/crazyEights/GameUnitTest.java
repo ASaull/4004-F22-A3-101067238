@@ -52,6 +52,13 @@ public class GameUnitTest
     }
 
     @Test
+    public void testDeckCreation()
+    {
+        game.newGame();
+        assertEquals(52, game.deck.size());
+    }
+
+    @Test
     public void testDrawCard()
     {
         game.newGame();
