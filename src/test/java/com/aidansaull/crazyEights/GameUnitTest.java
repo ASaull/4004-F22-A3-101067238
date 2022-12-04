@@ -29,6 +29,7 @@ public class GameUnitTest
 
         game.addPlayer(player);
         game.addPlayer(player2);
+        assertFalse(game.isStarted());
         game.addPlayer(player3);
         game.addPlayer(player4);
 
