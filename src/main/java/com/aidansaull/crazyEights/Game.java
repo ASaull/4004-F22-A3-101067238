@@ -1,12 +1,15 @@
 package com.aidansaull.crazyEights;
 
+import org.checkerframework.checker.units.qual.C;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 @Component
 public class Game
@@ -16,6 +19,7 @@ public class Game
 
     List<Player> players;
     private boolean started = false;
+    List<Card> deck;
 
     @PostConstruct
     void init()
@@ -46,6 +50,22 @@ public class Game
     public void newGame()
     {
         players = new ArrayList<Player>();
+        deck = new ArrayList<Card>();
+        shuffleDeck();
+    }
+
+    private void shuffleDeck()
+    {
+        List<Character> ranks = Arrays.asList('A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K');
+        List<Character> suits = Arrays.asList('H', 'S', 'C', 'D');
+        for (Character rank : ranks)
+        {
+            for (Character suit : suits)
+            {
+                Card card = new Card(rank, suit);
+                deck.add(card);
+            }
+        }
     }
 
     public void addPlayer(Player player)
@@ -62,6 +82,8 @@ public class Game
 
     public Card drawCard()
     {
-        return new Card();
+        int rand = ThreadLocalRandom.current().nextInt(0, deck.size());
+        Card card = deck.remove(rand);
+        return card;
     }
 }
