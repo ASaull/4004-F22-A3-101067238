@@ -47,9 +47,10 @@ public class Game
         currentPlayer = 0;
         started = true;
         // We can now tell the players that the game has started
-        drawTopCard();
         sendScore();
         dealHands();
+        drawTopCard();
+        sendScore(); // We have to do this again to update cards remaining
     }
 
     private void drawTopCard()
@@ -64,7 +65,7 @@ public class Game
         {
             scores.add(player.score);
         }
-        Score score = new Score(direction, scores, currentPlayer, discard.peek(), deck.size());
+        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size());
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }

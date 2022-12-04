@@ -60,6 +60,7 @@ function receiveCard(cardJson)
         btn.appendChild(text);
         btn.addEventListener("click", playCard);
         btn.card = cardJson["rank"] + cardJson["suit"];
+        btn.classList.add('card-button');
         card.appendChild(btn);
 }
     if (cardJson["rank"] == 'T')
@@ -104,6 +105,9 @@ function receiveScore(scoreJson)
 
     //Showing our player number
     $('#username').text('You are: Player ' + (parseInt(username)+1));
+
+    //Show number cards remaining
+    $('#remaining-header').text(scoreJson["remaining"] + " cards remain in the deck")
 }
 
 function disconnect() {

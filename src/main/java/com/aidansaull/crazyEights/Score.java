@@ -28,6 +28,7 @@ public class Score
         this.scores = scores;
         this.currentPlayer = currentPlayer;
         this.topCard = topCard;
+        this.remaining = remaining;
     }
 
     public List<Integer> getScores()
