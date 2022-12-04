@@ -1,5 +1,6 @@
 package com.aidansaull.crazyEights;
 
+import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -84,5 +85,24 @@ public class GameUnitTest
         game.startGame();
         assertNotNull(game.discard);
         assertEquals(1, game.discard.size());
+    }
+
+    @Test
+    public void testReshuffleEight() throws InterruptedException
+    {
+        game.newGame();
+        addPlayersToGame();
+        // This will cause the game to draw an 8 twice in a row
+        game.deck.push(new Card('8', 'H'));
+        game.deck.push(new Card('8', 'C'));
+        for(int i = 0; i<20; i++)
+        {
+            // dirty way to put 20 cards for the 4 players
+            game.deck.push(new Card('A', 'S'));
+        }
+        game.startGame();
+        // assert that the 8 has been reshuffled
+        Card card = game.discard.peek();
+        assertNotEquals('8', card.rank);
     }
 }
