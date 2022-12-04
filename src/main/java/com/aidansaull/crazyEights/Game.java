@@ -6,9 +6,11 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Component
@@ -20,6 +22,7 @@ public class Game
     public List<Player> players;
     private boolean started = false;
     List<Card> deck;
+    public Stack<Card> discard;
 
     @PostConstruct
     void init()
@@ -30,6 +33,8 @@ public class Game
     void startGame() throws InterruptedException
     {
         dealHands();
+        discard.push(drawCard());
+        // We can now tell the players that the game has started
     }
 
     void sendToPlayer(Integer id, String destination, String message)
@@ -49,6 +54,7 @@ public class Game
         started = false;
         players = new ArrayList<Player>();
         deck = new ArrayList<Card>();
+        discard = new Stack<Card>();
         shuffleDeck();
     }
 
