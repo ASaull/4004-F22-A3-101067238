@@ -25,10 +25,24 @@ public class Game
         System.out.println("Created Game");
     }
 
+    private Card drawNonEight()
+    {
+        Card card;
+        card = drawCard();
+        while(card.rank == '8')
+        {
+            deck.push(card);
+            Collections.shuffle(deck);
+            card = drawCard();
+        }
+        return card;
+    }
+
+
     void startGame() throws InterruptedException
     {
         dealHands();
-        discard.push(drawCard());
+        discard.push(drawNonEight());
         // We can now tell the players that the game has started
     }
 
