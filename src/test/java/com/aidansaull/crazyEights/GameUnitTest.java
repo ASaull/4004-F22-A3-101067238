@@ -63,10 +63,11 @@ public class GameUnitTest
     }
 
     @Test
-    public void testDealHands()
+    public void testDealHands() throws InterruptedException
     {
         game.newGame();
         addPlayersToGame();
+        game.startGame();
         for (Player player : game.players)
         {
             assertNotNull(player.hand);
