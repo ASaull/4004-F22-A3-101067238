@@ -1,15 +1,18 @@
 var stompClient = null;
+var username;
 
 function onload()
 {
     console.log("loaded")
-    $("#gameplay-div").prop("disabled", true);
+    $("#gameplay-div").hide();
+    $("#username").hide();
 }
 
 
 function setConnected(connected) {
-    $("#join").prop("disabled", connected);
-    $("#gameplay-div").prop("disabled", !connected);
+    $("#join").hide();
+    $("#gameplay-div").hide();
+    $("#username").show();
     //$("#greetings").html("");
 }
 
@@ -19,10 +22,17 @@ function connect() {
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
+        //setting our username
+        username = frame["headers"]["user-name"]
+        //showing our username
+        $('#username').text('You are: Player ' + (parseInt(username)+1) + ". Waiting for all players to join.");
         stompClient.subscribe('/topic/greetings', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
         stompClient.subscribe('/user/queue/message', function (greeting) {
+            showGreeting(JSON.parse(greeting.body).content);
+        });
+        stompClient.subscribe('/user/queue/username', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
     });

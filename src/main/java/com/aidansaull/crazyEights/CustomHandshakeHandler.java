@@ -12,6 +12,9 @@ public class CustomHandshakeHandler extends DefaultHandshakeHandler
 {
     private static Integer id = 0;
 
+    @Autowired
+    Game game;
+
     // Custom class for storing principal
     @Override
     protected Principal determineUser

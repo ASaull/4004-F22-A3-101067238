@@ -5,12 +5,16 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class Game
 {
     @Autowired
     private SimpMessagingTemplate simpMessagingTemplate;
+
+    List<Player> players;
 
     @PostConstruct
     void init()
@@ -28,13 +32,28 @@ public class Game
 
     void sendToPlayer(Integer id, String destination, String message)
     {
-        Greeting greeting = new Greeting(message);
+        Message greeting = new Message(message);
         simpMessagingTemplate.convertAndSendToUser(id.toString(), destination, greeting);
     }
 
     void sendToAll(String destination, String message)
     {
-        Greeting greeting = new Greeting(message);
+        Message greeting = new Message(message);
         simpMessagingTemplate.convertAndSend(destination, greeting);
+    }
+
+    public void newGame()
+    {
+
+    }
+
+    public void addPlayer(Player player)
+    {
+
+    }
+
+    public boolean isStarted()
+    {
+        return false;
     }
 }
