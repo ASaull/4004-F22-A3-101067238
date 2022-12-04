@@ -29,10 +29,7 @@ public class Game
 
     void startGame() throws InterruptedException
     {
-        Thread.sleep(1000);
-        sendToPlayer(0, "/queue/message", "Hello! -From the game <3");
-        sendToAll("/topic/greetings", "Hello to all players");
-        System.out.println("sent");
+        dealHands();
     }
 
     void sendToPlayer(Integer id, String destination, String message)
@@ -53,6 +50,17 @@ public class Game
         players = new ArrayList<Player>();
         deck = new ArrayList<Card>();
         shuffleDeck();
+    }
+
+    private void dealHands()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            for (Player player : players)
+            {
+                player.hand.add(drawCard());
+            }
+        }
     }
 
     private void shuffleDeck()
