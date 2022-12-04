@@ -1,15 +1,16 @@
 var stompClient = null;
 
+function onload()
+{
+    console.log("loaded")
+    $("#gameplay-div").prop("disabled", true);
+}
+
+
 function setConnected(connected) {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
-    if (connected) {
-        $("#conversation").show();
-    }
-    else {
-        $("#conversation").hide();
-    }
-    $("#greetings").html("");
+    $("#join").prop("disabled", connected);
+    $("#gameplay-div").prop("disabled", !connected);
+    //$("#greetings").html("");
 }
 
 function connect() {
@@ -47,7 +48,7 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    $( "#connect" ).click(function() { connect(); });
+    //$( "#join" ).click(function() { connect(); });
     $( "#disconnect" ).click(function() { disconnect(); });
     $( "#send" ).click(function() { sendName(); });
 });
