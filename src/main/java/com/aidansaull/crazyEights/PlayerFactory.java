@@ -10,8 +10,11 @@ public class PlayerFactory
     @Autowired
     SimpMessagingTemplate simpMessagingTemplate;
 
+    @Autowired
+    Game game;
+
     public Player createInstance(String username)
     {
-        return new Player(username, simpMessagingTemplate);
+        return new Player(username, simpMessagingTemplate, game);
     }
 }

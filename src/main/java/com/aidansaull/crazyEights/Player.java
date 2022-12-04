@@ -1,6 +1,7 @@
 package com.aidansaull.crazyEights;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,8 @@ public class Player
 
     SimpMessagingTemplate simpMessagingTemplate;
 
+    Game game;
+
 
     public Player()
     {
@@ -23,10 +26,11 @@ public class Player
         hand = new ArrayList<Card>();
         score = 0;
     }
-    public Player(String username, SimpMessagingTemplate simpMessagingTemplate)
+    public Player(String username, SimpMessagingTemplate simpMessagingTemplate, Game game)
     {
         this.username = username;
         this.simpMessagingTemplate = simpMessagingTemplate;
+        this.game = game;
         hand = new ArrayList<Card>();
         score = 0;
     }
@@ -43,8 +47,42 @@ public class Player
         simpMessagingTemplate.convertAndSendToUser(username, destination, card);
     }
 
+    private void playCard(Card card)
+    {
+        hand.remove(card);
+        game.discard.push(card);
+    }
+
     public boolean playCard(Character rank, Character suit)
     {
+        // First we check if we even have this card
+        Card card = null;
+        for (Card c : hand)
+        {
+            if (c.suit == suit && c.rank == rank)
+            {
+                card = c;
+                break;
+            }
+        }
+        if (card == null) // in this case, we do not have the card
+            return false;
+        Card topCard = game.discard.peek();
+        if (rank == '8') // 8, we can play
+        {
+            playCard(card);
+            return true;
+        }
+        if (game.isEight && card.suit == topCard.suit) // playable if we are playing on an 8
+        {
+            playCard(card);
+            return true;
+        }
+        if (card.suit == topCard.suit || card.rank == topCard.rank)
+        {
+            playCard(card);
+            return true;
+        }
         return false;
     }
 }

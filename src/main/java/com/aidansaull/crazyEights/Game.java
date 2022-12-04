@@ -20,6 +20,8 @@ public class Game
     Stack<Card> discard;
     boolean direction;
     Integer currentPlayer;
+    boolean isEight;
+    Character eightSuit;
 
     @PostConstruct
     void init()
@@ -89,6 +91,7 @@ public class Game
         deck = new Stack<Card>();
         discard = new Stack<Card>();
         direction = true;
+        isEight = false;
         shuffleDeck();
     }
 
