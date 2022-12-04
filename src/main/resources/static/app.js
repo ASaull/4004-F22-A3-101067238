@@ -1,6 +1,9 @@
 var stompClient = null;
 var username;
 var scores;
+var isEight = false;
+var eightSuit;
+var topCard;
 
 function onload()
 {
@@ -44,7 +47,6 @@ function connect() {
         });
         // We now say hello to the server so that we get added to the list of players
         sendHello();
-        //TODO Number of cards remaining
     });
 }
 
@@ -53,25 +55,24 @@ function receiveCard(cardJson)
     //showing our hand
     var list = document.getElementById("hand-list")
     var card = document.createElement('li');
+    card.classList.add('card');
+    card.appendChild(document.createTextNode((cardJson["rank"]=='T' ? '10' : cardJson["rank"] ) + cardJson["suit"] + " "));
     if (currentPlayer == username)
     {
         btn = document.createElement('BUTTON');
         text = document.createTextNode("Play");
         btn.appendChild(text);
         btn.addEventListener("click", playCard);
-        btn.card = cardJson["rank"] + cardJson["suit"];
+        btn.card = cardJson;
         btn.classList.add('card-button');
         card.appendChild(btn);
-}
-    if (cardJson["rank"] == 'T')
-        cardJson["rank"] = '10';
-    card.appendChild(document.createTextNode(" " + cardJson["rank"] + cardJson["suit"]));
+    }
     list.appendChild(card);
 }
 
 function playCard(evt)
 {
-    console.log("we want to play card " + evt.currentTarget.card)
+    console.log("we want to play card " + evt.currentTarget.card["rank"] + evt.currentTarget.card["suit"])
 }
 
 function receiveScore(scoreJson)
@@ -99,15 +100,54 @@ function receiveScore(scoreJson)
     $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next.")
 
     //Showing top card
-    if (scoreJson["topCard"]["rank"] == 'T')
-        scoreJson["topCard"]["rank"] = '10';
-    $('#top-card-header').text("Top Card: " + scoreJson["topCard"]["rank"] + scoreJson["topCard"]["suit"])
+    if (scoreJson["topCard"] != null)
+    {
+        topCard = scoreJson["topCard"]
+        $('#top-card-header').text("Top Card: " + (topCard["rank"]=='T' ? '10' : topCard["rank"] ) + topCard["suit"])
+    }
 
     //Showing our player number
     $('#username').text('You are: Player ' + (parseInt(username)+1));
 
     //Show number cards remaining
     $('#remaining-header').text(scoreJson["remaining"] + " cards remain in the deck")
+
+    // update playable
+    updatePlayable();
+}
+
+function isPlayable(card)
+{
+    // we check if this card is playable.
+    if (card["rank"] == 8) //eight always playable
+    {
+        return true;
+    }
+    if (isEight && eightSuit == card["suit"]) // playable if eight set to this suit
+    {
+        return true;
+    }
+    if (card["rank"] == topCard["rank"]
+        || card["suit"] == topCard["suit"]) //otherwise we check both
+    {
+        return true;
+    }
+    return false;
+}
+
+function updatePlayable()
+{
+    cards = document.getElementsByClassName('card');
+    Array.from(cards).forEach(function(cardli)
+    {
+        button = cardli.querySelector('.card-button');
+        card = button.card;
+        console.log(button);
+        if (isPlayable(card)) // we remove the button if it is not playable
+            button.style.visibility='visible'
+        else
+            button.style.visibility='hidden'
+    });
 }
 
 function disconnect() {
