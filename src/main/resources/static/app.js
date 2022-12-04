@@ -22,6 +22,7 @@ function setConnected(connected) {
 function connect() {
     var socket = new SockJS('/websocket');
     stompClient = Stomp.over(socket);
+    stompClient.debug = null
     stompClient.connect({}, function (frame) {
         setConnected(true);
         console.log('Connected: ' + frame);
@@ -75,6 +76,9 @@ function receiveScore(scoreJson)
     $("#gameplay-div").show();
     $("#score-div").show();
 
+    console.log("Got Scores:")
+    console.log(scoreJson)
+
     //setting scores
     var i = 0;
     scoreJson["scores"].forEach(function(score)
@@ -91,6 +95,10 @@ function receiveScore(scoreJson)
     nextPlayer = (currentPlayer + 1)%4;
     $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next.")
 
+    //Showing top card
+    $('#top-card-header').text("Top Card: " + scoreJson["topCard"]["rank"] + scoreJson["topCard"]["suit"])
+
+    //Showing our player number
     $('#username').text('You are: Player ' + (parseInt(username)+1));
 }
 

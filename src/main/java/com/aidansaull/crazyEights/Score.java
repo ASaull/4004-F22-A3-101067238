@@ -8,11 +8,19 @@ public class Score
     private Integer currentPlayer;
     private boolean direction;
 
-    public Score(boolean direction, List<Integer> scores, Integer currentPlayer)
+    public Card getTopCard()
+    {
+        return topCard;
+    }
+
+    private Card topCard;
+
+    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard)
     {
         this.direction = direction;
         this.scores = scores;
         this.currentPlayer = currentPlayer;
+        this.topCard = topCard;
     }
 
     public List<Integer> getScores()

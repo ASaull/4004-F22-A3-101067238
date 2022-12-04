@@ -47,8 +47,13 @@ public class Game
         currentPlayer = 0;
         started = true;
         // We can now tell the players that the game has started
+        drawTopCard();
         sendScore();
         dealHands();
+    }
+
+    private void drawTopCard()
+    {
         discard.push(drawNonEight());
     }
 
@@ -59,7 +64,7 @@ public class Game
         {
             scores.add(player.score);
         }
-        Score score = new Score(direction, scores, currentPlayer);
+        Score score = new Score(direction, scores, currentPlayer, discard.peek());
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }
