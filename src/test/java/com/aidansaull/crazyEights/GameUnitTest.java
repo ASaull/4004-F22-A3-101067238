@@ -1,12 +1,10 @@
 package com.aidansaull.crazyEights;
 
-import org.checkerframework.checker.units.qual.C;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import javax.lang.model.util.Types;
-import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -19,12 +17,15 @@ public class GameUnitTest
     @Autowired
     Game game;
 
+    @Autowired
+    PlayerFactory playerFactory;
+
     private void addPlayersToGame()
     {
-        Player player = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        Player player4 = new Player();
+        Player player = playerFactory.createInstance("0");
+        Player player2 = playerFactory.createInstance("1");
+        Player player3 = playerFactory.createInstance("2");
+        Player player4 = playerFactory.createInstance("3");
 
         game.addPlayer(player);
         game.addPlayer(player2);
@@ -36,10 +37,10 @@ public class GameUnitTest
     public void testGameStarts()
     {
         game.newGame();
-        Player player = new Player();
-        Player player2 = new Player();
-        Player player3 = new Player();
-        Player player4 = new Player();
+        Player player = playerFactory.createInstance("0");
+        Player player2 = playerFactory.createInstance("1");
+        Player player3 = playerFactory.createInstance("2");
+        Player player4 = playerFactory.createInstance("3");
 
         game.addPlayer(player);
         game.addPlayer(player2);

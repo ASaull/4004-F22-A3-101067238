@@ -12,13 +12,14 @@ import java.util.List;
 public class Game
 {
     @Autowired
-    private SimpMessagingTemplate simpMessagingTemplate;
+    SimpMessagingTemplate simpMessagingTemplate;
 
     List<Player> players;
     boolean started = false;
     Stack<Card> deck;
     Stack<Card> discard;
     boolean direction;
+    Integer currentPlayer;
 
     @PostConstruct
     void init()
@@ -43,11 +44,12 @@ public class Game
 
     void startGame()
     {
-        dealHands();
-        discard.push(drawNonEight());
+        currentPlayer = 0;
         started = true;
         // We can now tell the players that the game has started
         sendScore();
+        dealHands();
+        discard.push(drawNonEight());
     }
 
     private void sendScore()
@@ -57,10 +59,9 @@ public class Game
         {
             scores.add(player.score);
         }
-        Score score = new Score(direction, scores);
+        Score score = new Score(direction, scores, currentPlayer);
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
-        System.out.println("just sent " + score);
     }
 
     void sendToPlayer(Integer id, String destination, String message)
@@ -91,7 +92,7 @@ public class Game
         {
             for (Player player : players)
             {
-                player.hand.add(drawCard());
+                player.addCard(drawCard());
             }
         }
     }
@@ -118,7 +119,6 @@ public class Game
         {
             startGame();
         }
-        System.out.println("addng player ");
     }
 
     public boolean isStarted()

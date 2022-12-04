@@ -4,18 +4,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 
-import java.security.Principal;
-
 @Controller
 public class MessageController
 {
     @Autowired
     Game game;
 
+    @Autowired
+    PlayerFactory playerFactory;
+
     @MessageMapping("/hello")
-    public void hello()
+    public void hello(Message message)
     {
-        game.addPlayer(new Player());
+        game.addPlayer(playerFactory.createInstance(message.getContent()));
     }
 
 }

@@ -6,6 +6,7 @@ function onload()
 {
     console.log("loaded")
     $("#gameplay-div").hide();
+    $("#score-div").hide();
     $("#username").hide();
 }
 
@@ -13,6 +14,7 @@ function onload()
 function setConnected(connected) {
     $("#join").hide();
     $("#gameplay-div").hide();
+    $("#score-div").hide();
     $("#username").show();
     //$("#greetings").html("");
 }
@@ -36,14 +38,59 @@ function connect() {
         stompClient.subscribe('/user/queue/username', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        stompClient.subscribe('/user/queue/card', function (card) {
+            receiveCard(JSON.parse(card.body));
+        });
         // We now say hello to the server so that we get added to the list of players
         sendHello();
+        //TODO Number of cards remaining
     });
+}
+
+function receiveCard(cardJson)
+{
+    //showing our hand
+    var list = document.getElementById("hand-list")
+    var card = document.createElement('li');
+    card.appendChild(document.createTextNode(cardJson["rank"] + cardJson["suit"] + " "));
+    if (currentPlayer == username)
+    {
+        btn = document.createElement('BUTTON');
+        text = document.createTextNode("Play");
+        btn.appendChild(text);
+        btn.addEventListener("click", playCard);
+        btn.card = cardJson["rank"] + cardJson["suit"];
+        card.appendChild(btn);
+    }
+    list.appendChild(card);
+}
+
+function playCard(evt)
+{
+    console.log("we want to play card " + evt.currentTarget.card)
 }
 
 function receiveScore(scoreJson)
 {
+    $("#gameplay-div").show();
+    $("#score-div").show();
+
+    //setting scores
+    var i = 0;
+    scoreJson["scores"].forEach(function(score)
+    {
+        if (username == i)
+            $(`#p${i+1}-score`).text(`Player ${i+1}: ` + scoreJson["scores"][i] + " (You)");
+        else
+            $(`#p${i+1}-score`).text(`Player ${i+1}: ` + scoreJson["scores"][i]);
+        i++;
+    })
+
+    //Updating turn info
+    currentPlayer = scoreJson["currentPlayer"]
     console.log(scoreJson);
+
+    $('#username').text('You are: Player ' + (parseInt(username)+1));
 }
 
 function disconnect() {
@@ -55,7 +102,7 @@ function disconnect() {
 }
 
 function sendHello() {
-    stompClient.send("/app/hello", {}, {});
+    stompClient.send("/app/hello", {}, JSON.stringify({'content': username}));
 }
 
 function showGreeting(message) {
