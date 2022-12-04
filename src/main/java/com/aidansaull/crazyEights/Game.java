@@ -24,6 +24,7 @@ public class Game
     void init()
     {
         System.out.println("Created Game");
+        newGame();
     }
 
     private Card drawNonEight()
@@ -117,6 +118,7 @@ public class Game
         {
             startGame();
         }
+        System.out.println("addng player ");
     }
 
     public boolean isStarted()

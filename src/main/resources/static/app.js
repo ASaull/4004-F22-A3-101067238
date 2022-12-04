@@ -1,5 +1,6 @@
 var stompClient = null;
 var username;
+var scores;
 
 function onload()
 {
@@ -26,8 +27,8 @@ function connect() {
         username = frame["headers"]["user-name"]
         //showing our username
         $('#username').text('You are: Player ' + (parseInt(username)+1) + ". Waiting for all players to join.");
-        stompClient.subscribe('/topic/greetings', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
+        stompClient.subscribe('/topic/score', function (score) {
+            receiveScore(JSON.parse(score.body));
         });
         stompClient.subscribe('/user/queue/message', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
@@ -35,7 +36,14 @@ function connect() {
         stompClient.subscribe('/user/queue/username', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
+        // We now say hello to the server so that we get added to the list of players
+        sendHello();
     });
+}
+
+function receiveScore(scoreJson)
+{
+    console.log(scoreJson);
 }
 
 function disconnect() {
@@ -46,8 +54,8 @@ function disconnect() {
     console.log("Disconnected");
 }
 
-function sendName() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'name': $("#name").val()}));
+function sendHello() {
+    stompClient.send("/app/hello", {}, {});
 }
 
 function showGreeting(message) {

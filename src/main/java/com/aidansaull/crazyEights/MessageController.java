@@ -13,13 +13,9 @@ public class MessageController
     Game game;
 
     @MessageMapping("/hello")
-    //@SendTo("/topic/greetings")
-    public void greeting(Principal principal, Message message) throws Exception
+    public void hello()
     {
-        String username = principal.getName();
-        Thread.sleep(1000); // simulated delay
-        game.startGame();
-        //return new Greeting("Hello, " + HtmlUtils.htmlEscape(message.getName()) + ", you have username " + username);
+        game.addPlayer(new Player());
     }
 
 }
