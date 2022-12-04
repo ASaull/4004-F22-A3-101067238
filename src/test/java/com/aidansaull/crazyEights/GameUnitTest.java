@@ -155,5 +155,6 @@ public class GameUnitTest
 
         //check that cards have been played
         assertEquals(4, game.discard.size());
+        assertEquals(1, player.hand.size());
     }
 }
