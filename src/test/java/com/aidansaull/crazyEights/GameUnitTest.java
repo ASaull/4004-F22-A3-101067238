@@ -64,7 +64,7 @@ public class GameUnitTest
     {
         game.newGame();
         Card card = game.drawCard();
-        List<Character> ranks = Arrays.asList('A', '2', '3', '4', '5', '6', '7', '8', '9', 'J', 'Q', 'K');
+        List<Character> ranks = Arrays.asList('A', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K');
 
         assertTrue(Objects.equals(card.suit, 'C')
                 || Objects.equals(card.suit, 'H')
