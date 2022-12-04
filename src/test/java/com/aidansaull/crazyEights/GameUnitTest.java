@@ -69,7 +69,6 @@ public class GameUnitTest
     {
         game.newGame();
         addPlayersToGame();
-        game.startGame();
         for (Player player : game.players)
         {
             assertNotNull(player.hand);
@@ -82,7 +81,6 @@ public class GameUnitTest
     {
         game.newGame();
         addPlayersToGame();
-        game.startGame();
         assertNotNull(game.discard);
         assertEquals(1, game.discard.size());
     }
@@ -100,7 +98,6 @@ public class GameUnitTest
             // dirty way to put 20 cards for the 4 players
             game.deck.push(new Card('A', 'S'));
         }
-        game.startGame();
         // assert that the 8 has been reshuffled
         Card card = game.discard.peek();
         assertNotEquals('8', card.rank);

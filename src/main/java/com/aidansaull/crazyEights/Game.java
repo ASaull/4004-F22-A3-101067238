@@ -40,10 +40,11 @@ public class Game
     }
 
 
-    void startGame() throws InterruptedException
+    void startGame()
     {
         dealHands();
         discard.push(drawNonEight());
+        started = true;
         // We can now tell the players that the game has started
         sendScore();
     }
@@ -56,6 +57,9 @@ public class Game
             scores.add(player.score);
         }
         Score score = new Score(direction, scores);
+        String destination = "/topic/score";
+        simpMessagingTemplate.convertAndSend(destination, score);
+        System.out.println("just sent " + score);
     }
 
     void sendToPlayer(Integer id, String destination, String message)
@@ -110,7 +114,9 @@ public class Game
     {
         players.add(player);
         if (players.size() == 4)
-            started = true;
+        {
+            startGame();
+        }
     }
 
     public boolean isStarted()
