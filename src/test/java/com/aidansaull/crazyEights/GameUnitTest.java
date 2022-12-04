@@ -17,6 +17,19 @@ public class GameUnitTest
     @Autowired
     Game game;
 
+    private void addPlayersToGame()
+    {
+        Player player = new Player();
+        Player player2 = new Player();
+        Player player3 = new Player();
+        Player player4 = new Player();
+
+        game.addPlayer(player);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        game.addPlayer(player4);
+    }
+
     @Test
     public void testGameStarts()
     {
@@ -47,5 +60,17 @@ public class GameUnitTest
                 || Objects.equals(card.suit, 'D')
                 || Objects.equals(card.suit, 'S'));
         assertTrue(ranks.contains(card.rank));
+    }
+
+    @Test
+    public void testDealHands()
+    {
+        game.newGame();
+        addPlayersToGame();
+        for (Player player : game.players)
+        {
+            assertNotNull(player.hand);
+            assertTrue(player.hand.size() == 5);
+        }
     }
 }
