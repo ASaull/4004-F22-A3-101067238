@@ -142,16 +142,16 @@ public class GameUnitTest
         player.addCard(new Card('8', 'D'));
 
         // Will be true because this card exists and is playable
-        assertTrue(player.playCard('5', 'C'));
+        assertTrue(player.playCard(new Card('5', 'C')));
 
         // Will be false because this card does not exist
-        assertFalse(player.playCard('5', 'C'));
+        assertFalse(player.playCard(new Card('5', 'C')));
 
         // Will be false because this card is not playable
-        assertFalse(player.playCard('6', 'H'));
+        assertFalse(player.playCard(new Card('6', 'H')));
 
         // Will be true because we can always play an 8
-        assertTrue(player.playCard('8', 'D'));
+        assertTrue(player.playCard(new Card('8', 'D')));
 
         //check that cards have been played
         assertEquals(4, game.discard.size());

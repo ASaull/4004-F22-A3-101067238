@@ -12,6 +12,19 @@ public class Card
             return rank;
         }
 
+        @Override
+        public boolean equals(Object o)
+        {
+            if (this == o)
+                return true;
+            if (o == null)
+                return false;
+            if (getClass() != o.getClass())
+                return false;
+            Card card = (Card) o;
+            return (card.suit == suit && card.rank == rank);
+        }
+
         Character suit;
         Character rank;
 
