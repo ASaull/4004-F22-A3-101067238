@@ -8,6 +8,13 @@ public class Score
     private Integer currentPlayer;
     private boolean direction;
 
+    public Integer getRemaining()
+    {
+        return remaining;
+    }
+
+    private Integer remaining;
+
     public Card getTopCard()
     {
         return topCard;
@@ -15,7 +22,7 @@ public class Score
 
     private Card topCard;
 
-    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard)
+    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining)
     {
         this.direction = direction;
         this.scores = scores;

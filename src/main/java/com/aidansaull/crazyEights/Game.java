@@ -64,7 +64,7 @@ public class Game
         {
             scores.add(player.score);
         }
-        Score score = new Score(direction, scores, currentPlayer, discard.peek());
+        Score score = new Score(direction, scores, currentPlayer, discard.peek(), deck.size());
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }
