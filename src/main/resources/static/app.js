@@ -53,7 +53,6 @@ function receiveCard(cardJson)
     //showing our hand
     var list = document.getElementById("hand-list")
     var card = document.createElement('li');
-    card.appendChild(document.createTextNode(cardJson["rank"] + cardJson["suit"] + " "));
     if (currentPlayer == username)
     {
         btn = document.createElement('BUTTON');
@@ -62,7 +61,10 @@ function receiveCard(cardJson)
         btn.addEventListener("click", playCard);
         btn.card = cardJson["rank"] + cardJson["suit"];
         card.appendChild(btn);
-    }
+}
+    if (cardJson["rank"] == 'T')
+        cardJson["rank"] = '10';
+    card.appendChild(document.createTextNode(" " + cardJson["rank"] + cardJson["suit"]));
     list.appendChild(card);
 }
 
@@ -96,6 +98,8 @@ function receiveScore(scoreJson)
     $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next.")
 
     //Showing top card
+    if (scoreJson["topCard"]["rank"] == 'T')
+        scoreJson["topCard"]["rank"] = '10';
     $('#top-card-header').text("Top Card: " + scoreJson["topCard"]["rank"] + scoreJson["topCard"]["suit"])
 
     //Showing our player number
