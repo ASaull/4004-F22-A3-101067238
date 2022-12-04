@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.lang.model.util.Types;
+import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -73,5 +74,15 @@ public class GameUnitTest
             assertNotNull(player.hand);
             assertTrue(player.hand.size() == 5);
         }
+    }
+
+    @Test
+    public void testDiscardPile() throws InterruptedException
+    {
+        game.newGame();
+        addPlayersToGame();
+        game.startGame();
+        assertNotNull(game.discard);
+        assertEquals(1, game.discard.size());
     }
 }
