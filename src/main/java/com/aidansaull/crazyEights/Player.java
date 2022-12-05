@@ -45,11 +45,11 @@ public class Player
     {
         String destination = "/queue/card";
         simpMessagingTemplate.convertAndSendToUser(username, destination, card);
-        System.out.println("sending card to " + username);
     }
 
     private void play(Card card)
     {
+        System.out.println("playing card " + card);
         hand.remove(card);
         game.discard.push(card);
     }

@@ -17,20 +17,20 @@ public abstract class AbstractPage<T extends AbstractPage<T>>
 
     private static final Logger LOG = LoggerFactory.getLogger(AbstractPage.class);
 
-    protected WebDriver webDriver;
+    protected WebDriver driver;
 
     public AbstractPage(final WebDriver webDriver)
     {
-        this.webDriver = webDriver;
+        this.driver = webDriver;
         LOG.warn("Initializing elements for page {}.", this.getClass());
-        PageFactory.initElements(this.webDriver, this);
+        PageFactory.initElements(this.driver, this);
     }
 
     public void refreshWithNewDriver(WebDriver webDriver)
     {
-        this.webDriver = webDriver;
+        this.driver = webDriver;
         LOG.warn("Refreshing elements for page {}.", this.getClass());
-        PageFactory.initElements(this.webDriver, this);
+        PageFactory.initElements(this.driver, this);
     }
 
     /*protected abstract String getPageName();

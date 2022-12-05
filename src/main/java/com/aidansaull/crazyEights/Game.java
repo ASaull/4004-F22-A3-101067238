@@ -48,6 +48,7 @@ public class Game
 
     void startGame()
     {
+        System.out.println("Beginning starting game");
         currentPlayer = 0;
         started = true;
         // We can now tell the players that the game has started
@@ -55,6 +56,7 @@ public class Game
         dealHands();
         drawTopCard();
         sendScore(false); // We have to do this again to update cards remaining
+        System.out.println("Done starting game");
     }
 
     private void drawTopCard()
@@ -62,14 +64,20 @@ public class Game
         discard.push(drawNonEight());
     }
 
-    private void sendScore(boolean reset)
+    public void sendScore()
     {
-        List<Integer> scores = new ArrayList<Integer>();
+        sendScore(false);
+    }
+
+    public void sendScore(boolean reset)
+    {
+        List<Integer> scores = new ArrayList<>();
         for (Player player : players)
         {
             scores.add(player.score);
         }
         Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset);
+        System.out.println("sending score, new top card is " + (discard.size()==0 ? null : discard.peek()));
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }
@@ -134,7 +142,7 @@ public class Game
 
     public void removePlayers()
     {
-        System.out.println("Oops! Once player left, resetting the game!");
+        System.out.println("Oops! One player left, resetting the game!");
         sendScore(true);
         //players.removeAll(players);
         newGame();
