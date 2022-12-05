@@ -23,7 +23,7 @@ public class MockUserFactory
         //capabilities.setJavascriptEnabled(true);
 
         final WebDriver edgeDriver = new EdgeDriver();
-        edgeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        edgeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         edgeDriver.get(location);
         return edgeDriver;
     }
