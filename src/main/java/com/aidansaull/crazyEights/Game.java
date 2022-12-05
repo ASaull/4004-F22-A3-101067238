@@ -24,6 +24,7 @@ public class Game
     Integer currentPlayer;
     boolean isEight;
     Character eightSuit;
+    Integer skipped = -1;
 
     @PostConstruct
     void init()
@@ -74,7 +75,7 @@ public class Game
         {
             scores.add(player.score);
         }
-        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset);
+        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset, skipped);
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }
@@ -99,6 +100,7 @@ public class Game
         discard = new Stack<Card>();
         direction = true;
         isEight = false;
+        skipped = -1;
         shuffleDeck();
     }
 
@@ -163,6 +165,15 @@ public class Game
             direction = !direction;
         }
         int change = direction ? 1 : -1;
+        if (discard.peek().rank == 'Q') // Someone's turn was skipped, let them know
+        {
+            skipped = Math.floorMod((currentPlayer+change), 4);
+            change *=2;
+        }
+        else
+        {
+            skipped = -1;
+        }
         currentPlayer = Math.floorMod((currentPlayer+change), 4);
         sendScore();
     }

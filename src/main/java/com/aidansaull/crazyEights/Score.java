@@ -22,6 +22,13 @@ public class Score
 
     private Card topCard;
 
+    public Integer getSkipped()
+    {
+        return skipped;
+    }
+
+    private Integer skipped;
+
     public boolean isReset()
     {
         return reset;
@@ -29,7 +36,7 @@ public class Score
 
     private boolean reset;
 
-    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining, boolean reset)
+    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining, boolean reset, Integer skipped)
     {
         this.direction = direction;
         this.scores = scores;
@@ -37,6 +44,7 @@ public class Score
         this.topCard = topCard;
         this.remaining = remaining;
         this.reset = reset;
+        this.skipped = skipped;
     }
 
     public List<Integer> getScores()

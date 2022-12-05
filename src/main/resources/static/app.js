@@ -118,7 +118,14 @@ function receiveScore(scoreJson)
     currentPlayer = scoreJson["currentPlayer"]
     change = direction ? 1 : -1;
     nextPlayer = (currentPlayer + change)%4;
-    $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next.")
+
+    skippedMessage = "";
+    if (scoreJson["skipped"] == username)
+    {
+        // we were skipped
+        skippedMessage = "  Your turn was skipped!";
+    }
+    $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next." + skippedMessage)
 
     //Showing top card
     if (scoreJson["topCard"] != null)
