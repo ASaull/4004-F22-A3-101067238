@@ -119,6 +119,13 @@ public class MyStepdefs
         assertTrue(mainPage.hasText("It is currently Player " + id.toString() + "'s turn."));
     }
 
+    @And("next player is player {int}")
+    public void nextPlayerIsPlayer(Integer id)
+    {
+        MainPage mainPage = userMainPages.get(0); //could be any one
+        assertTrue(mainPage.hasText("It will be Player " + id.toString() + "'s turn next."));
+    }
+
     @And("player {int} has {string} in their hand")
     public void playerHasCInTheirHand(int id, String cardString)
     {

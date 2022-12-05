@@ -137,7 +137,7 @@ function receiveScore(scoreJson)
     updatePlayable(scoreJson["currentPlayer"]);
 
     //update direction
-    direction = scoreJson["direction"];
+    direction = (scoreJson["direction"] === 'true');
 }
 
 function isPlayable(card, currentPlayer)

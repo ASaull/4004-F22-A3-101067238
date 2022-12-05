@@ -17,8 +17,16 @@ Feature: Multi-player game scoring
     When player 1 plays '3C'
     Then current player is player 2
 
-  Scenario: testRow42
+  Scenario: testRow43
     Given top card is '2H'
     And player 1 has 'AH' in their hand
     When player 1 plays 'AH'
     Then current player is player 4
+    And next player is player 3
+
+#  Scenario: testRow44
+#    Given top card is 'KC'
+#    And player 1 has 'QC' in their hand
+#    When player 1 plays 'QC'
+#    Then current player is player 3
+#    And player 2 is notified that they missed their turn
