@@ -1,5 +1,6 @@
 package com.aidansaull.crazyEights.pages;
 
+import com.aidansaull.crazyEights.Card;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.FluentWait;
@@ -79,5 +80,12 @@ public class MainPage extends AbstractPage<MainPage>
         List<WebElement> buttons = driver.findElements(By.className("card-button"));
         buttons.removeIf(n-> (!joinButton.isDisplayed()));
         return buttons.size() == 0;
+    }
+
+    public boolean mustPlay(String cardString)
+    {
+        List<WebElement> buttons = driver.findElements(By.className("card-button"));
+        buttons.removeIf(n-> (!n.isDisplayed()));
+        return buttons.size() == 1 && Objects.equals(buttons.get(0).getAttribute("id"), cardString);
     }
 }

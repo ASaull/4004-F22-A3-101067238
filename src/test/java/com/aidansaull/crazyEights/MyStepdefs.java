@@ -187,7 +187,14 @@ public class MyStepdefs
     @Then("player {int} must draw")
     public void playerMustDraw(int id)
     {
-        MainPage mainPage = userMainPages.get(id);
+        MainPage mainPage = userMainPages.get(id-1);
         assertTrue(mainPage.mustDraw());
+    }
+
+    @Then("player {int} must play {string}")
+    public void playerMustPlayD(int id, String cardString)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        assertTrue(mainPage.mustPlay(cardString));
     }
 }

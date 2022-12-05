@@ -83,3 +83,5 @@ Feature: Multi-player game scoring
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
     Then player 1 must draw
+    When player 1 has '6C' in their hand
+    Then player 1 must play '6C'
