@@ -77,6 +77,7 @@ public class MainPage extends AbstractPage<MainPage>
     public boolean mustDraw()
     {
         List<WebElement> buttons = driver.findElements(By.className("card-button"));
+        buttons.removeIf(n-> (!joinButton.isDisplayed()));
         return buttons.size() == 0;
     }
 }

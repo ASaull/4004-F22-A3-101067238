@@ -173,9 +173,10 @@ public class MyStepdefs
     public void playerHasExactlyHAsTheirHand(int id, String handStrings)
     {
         List<Card> hand = new ArrayList<>();
-        Player player = game.players.get(id);
+        Player player = game.players.get(id-1);
         player.hand = new ArrayList<>();
-        // we tell the
+        // we tell the player to empty their hand
+        player.emptyHand();
         for(String handString : handStrings.split(","))
         {
             Card card = new Card(handString.charAt(0), handString.charAt(1));
