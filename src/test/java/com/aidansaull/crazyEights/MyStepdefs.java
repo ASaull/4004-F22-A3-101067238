@@ -133,4 +133,11 @@ public class MyStepdefs
         Character suit = cardString.charAt(1);
         game.players.get(id-1).addCard(new Card(rank, suit));
     }
+
+    @And("player {int} is notified that they missed their turn")
+    public void playerIsNotifiedThatTheyMissedTheirTurn(int id)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        assertTrue(mainPage.hasText("Your turn was skipped!"));
+    }
 }

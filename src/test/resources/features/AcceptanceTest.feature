@@ -24,9 +24,9 @@ Feature: Multi-player game scoring
     Then current player is player 4
     And next player is player 3
 
-#  Scenario: testRow44
-#    Given top card is 'KC'
-#    And player 1 has 'QC' in their hand
-#    When player 1 plays 'QC'
-#    Then current player is player 3
-#    And player 2 is notified that they missed their turn
+  Scenario: testRow44
+    Given top card is 'KC'
+    And player 1 has 'QC' in their hand
+    When player 1 plays 'QC'
+    Then current player is player 3
+    And player 2 is notified that they missed their turn
