@@ -48,3 +48,16 @@ Feature: Multi-player game scoring
     Given player 3 has '7H' in their hand
     When player 3 plays '7H'
     Then current player is player 2
+
+  Scenario: testRow48
+    Given top card is 'KC'
+    And it is player 4s turn
+    And player 4 has 'QC' in their hand
+    When player 4 plays 'QC'
+    Then current player is player 2
+
+  Scenario: testRow51
+    Given top card is 'KC'
+    And player 1 has 'KH' in their hand
+    When player 1 plays 'KH'
+    Then top card shows 'KH'

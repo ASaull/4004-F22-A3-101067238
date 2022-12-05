@@ -29,6 +29,9 @@ public class MainPage extends AbstractPage<MainPage>
     @FindBy(id = "leave")
     public WebElement leaveButton;
 
+    @FindBy(id = "top-card-header")
+    public WebElement topCardHeader;
+
     public void clickJoin()
     {
         joinButton.click();
@@ -84,5 +87,11 @@ public class MainPage extends AbstractPage<MainPage>
             //}
         //}
         button.click();
+    }
+
+    public String getTopCard()
+    {
+        String fullText = topCardHeader.getText();
+        return fullText.substring(fullText.length() - 2); // could hardcode, but whatever
     }
 }

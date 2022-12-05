@@ -147,4 +147,11 @@ public class MyStepdefs
         game.currentPlayer = id-1;
         game.sendScore();
     }
+
+    @Then("top card shows {string}")
+    public void topCardShows(String topCardString)
+    {
+        MainPage mainPage = userMainPages.get(0); //can by anybody
+        assertEquals(topCardString, mainPage.getTopCard());
+    }
 }
