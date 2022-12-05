@@ -151,7 +151,7 @@ public class MyStepdefs
     @Then("top card shows {string}")
     public void topCardShows(String topCardString)
     {
-        MainPage mainPage = userMainPages.get(0); //can by anybody
+        MainPage mainPage = userMainPages.get(0); //can be anybody
         assertEquals(topCardString, mainPage.getTopCard());
     }
 }

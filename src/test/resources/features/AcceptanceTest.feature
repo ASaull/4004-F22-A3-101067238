@@ -61,3 +61,9 @@ Feature: Multi-player game scoring
     And player 1 has 'KH' in their hand
     When player 1 plays 'KH'
     Then top card shows 'KH'
+
+  Scenario: testRow52
+    Given top card is 'KC'
+    And player 1 has '7C' in their hand
+    When player 1 plays '7C'
+    Then top card shows '7C'
