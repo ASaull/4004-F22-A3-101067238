@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 
+import javax.validation.constraints.AssertTrue;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,8 +28,8 @@ public class MyStepdefs
 
     private List<MainPage> userMainPages = new ArrayList<>();
 
-    //@Autowired
-    //private List<WebDriver> users = new ArrayList<>();
+    @Autowired
+    Game game;
 
     private MockUserFactory userFactory;
 
@@ -41,46 +42,29 @@ public class MyStepdefs
         }
     }
 
-    @Given("the website is running")
-    public void theWebsiteIsRunning()
-    {
-        //System.setProperty("webdriver.edge.driver", "C:\\Users\\saull\\Documents\\COMP4004\\Web_Driver\\msedgedriver.exe");
-        //mainPage.open();
-    }
-
-    @Given("I am on the main page")
-    public void iAmOnTheMainPage()
-    {
-
-    }
-
-    @When("Player {int} connects to the websocket")
-    public void playerConnectsToTheWebsocket(int arg0)
+    void connectNewPlayer()
     {
         WebDriver webDriver = MockUserFactory.buildNewUser("http://localhost:8080");
-        userMainPages.add(new MainPage(webDriver));
-        MainPage mainPage = userMainPages.get(arg0-1);
-        mainPage.clickConnect();
+        MainPage mainPage = new MainPage(webDriver);
+        userMainPages.add(mainPage);
+        mainPage.clickJoin();
     }
 
-    @When("Player {int} sends the name {string}")
-    public void playerSendsTheNameAidan(int arg0, String name)
+    @Given("The game has been started and all players have joined")
+    public void theGameHasBeenStartedAndAllPlayersHaveJoined()
     {
-        MainPage mainPage = userMainPages.get(arg0-1);
-        mainPage.sendName(name);
+        // We start by disconnecting all players
+
+        for (int i = 0; i < 4; i++)
+        {
+            connectNewPlayer();
+        }
     }
 
-    @Then("Player {int} sees {string}")
-    public void playerSeesHelloAidan(int arg0, String text)
+    @Then("player {int} sees {string}")
+    public void playerSeesYouArePlayer(int id, String string)
     {
-        MainPage mainPage = userMainPages.get(arg0-1);
-        assertTrue(mainPage.hasText(text));
-    }
-
-    @And("Player {int} does not see {string}")
-    public void playerDoesNotSeeHelloAidanYouArePlayer(int arg0, String text)
-    {
-        MainPage mainPage = userMainPages.get(arg0-1);
-        assertFalse(mainPage.hasText(text));
+        MainPage mainPage = userMainPages.get(id-1);
+        assertTrue(mainPage.hasText(string));
     }
 }

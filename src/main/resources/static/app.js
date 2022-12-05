@@ -11,15 +11,26 @@ function onload()
     $("#gameplay-div").hide();
     $("#score-div").hide();
     $("#username").hide();
+    $("#leave").hide();
 }
 
 
-function setConnected(connected) {
+function setConnected() {
     $("#join").hide();
+    $("#leave").show();
     $("#gameplay-div").hide();
     $("#score-div").hide();
     $("#username").show();
-    //$("#greetings").html("");
+}
+
+function setDisconnected() {
+    //removing cards from list
+    location.reload();
+    $("#join").show();
+    $("#leave").hide();
+    $("#gameplay-div").hide();
+    $("#score-div").hide();
+    $("#username").hide();
 }
 
 function connect() {
@@ -27,7 +38,7 @@ function connect() {
     stompClient = Stomp.over(socket);
     stompClient.debug = null
     stompClient.connect({}, function (frame) {
-        setConnected(true);
+        setConnected();
         console.log('Connected: ' + frame);
         //setting our username
         username = frame["headers"]["user-name"]
@@ -52,31 +63,37 @@ function connect() {
 
 function receiveCard(cardJson)
 {
+    console.log("received card")
     //showing our hand
     var list = document.getElementById("hand-list")
     var card = document.createElement('li');
     card.classList.add('card');
     card.appendChild(document.createTextNode((cardJson["rank"]=='T' ? '10' : cardJson["rank"] ) + cardJson["suit"] + " "));
-    if (currentPlayer == username)
-    {
-        btn = document.createElement('BUTTON');
-        text = document.createTextNode("Play");
-        btn.appendChild(text);
-        btn.addEventListener("click", playCard);
-        btn.card = cardJson;
-        btn.classList.add('card-button');
-        card.appendChild(btn);
-    }
+
+    btn = document.createElement('BUTTON');
+    text = document.createTextNode("Play");
+    btn.appendChild(text);
+    btn.addEventListener("click", playCard);
+    btn.card = cardJson;
+    btn.classList.add('card-button');
+    card.appendChild(btn);
+
     list.appendChild(card);
 }
 
 function playCard(evt)
 {
-    console.log("we want to play card " + evt.currentTarget.card["rank"] + evt.currentTarget.card["suit"])
+    stompClient.send("/app/play", {}, JSON.stringify(evt.currentTarget.card));
 }
 
 function receiveScore(scoreJson)
 {
+    if (scoreJson["reset"])
+    {
+        console.log("Game over, resetting")
+        setDisconnected();
+        return;
+    }
     $("#gameplay-div").show();
     $("#score-div").show();
 
@@ -113,11 +130,13 @@ function receiveScore(scoreJson)
     $('#remaining-header').text(scoreJson["remaining"] + " cards remain in the deck")
 
     // update playable
-    updatePlayable();
+    updatePlayable(scoreJson["currentPlayer"]);
 }
 
-function isPlayable(card)
+function isPlayable(card, currentPlayer)
 {
+    if (currentPlayer != username)
+        return;
     // we check if this card is playable.
     if (card["rank"] == 8) //eight always playable
     {
@@ -135,15 +154,15 @@ function isPlayable(card)
     return false;
 }
 
-function updatePlayable()
+function updatePlayable(currentPlayer)
 {
     cards = document.getElementsByClassName('card');
     Array.from(cards).forEach(function(cardli)
     {
         button = cardli.querySelector('.card-button');
-        card = button.card;
+        var card = button.card;
         console.log(button);
-        if (isPlayable(card)) // we remove the button if it is not playable
+        if (isPlayable(card, currentPlayer)) // we remove the button if it is not playable
             button.style.visibility='visible'
         else
             button.style.visibility='hidden'
@@ -151,15 +170,22 @@ function updatePlayable()
 }
 
 function disconnect() {
+    sendGoodbye();
     if (stompClient !== null) {
         stompClient.disconnect();
     }
-    setConnected(false);
     console.log("Disconnected");
+    setDisconnected()
 }
 
 function sendHello() {
-    stompClient.send("/app/hello", {}, JSON.stringify({'content': username}));
+    // we send nothing
+    stompClient.send("/app/hello", {}, {});
+}
+
+function sendGoodbye()
+{
+    stompClient.send("/app/goodbye", {}, {});
 }
 
 function showGreeting(message) {
@@ -170,7 +196,4 @@ $(function () {
     $("form").on('submit', function (e) {
         e.preventDefault();
     });
-    //$( "#join" ).click(function() { connect(); });
-    $( "#disconnect" ).click(function() { disconnect(); });
-    $( "#send" ).click(function() { sendName(); });
 });

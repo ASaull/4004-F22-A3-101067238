@@ -22,13 +22,21 @@ public class Score
 
     private Card topCard;
 
-    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining)
+    public boolean isReset()
+    {
+        return reset;
+    }
+
+    private boolean reset;
+
+    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining, boolean reset)
     {
         this.direction = direction;
         this.scores = scores;
         this.currentPlayer = currentPlayer;
         this.topCard = topCard;
         this.remaining = remaining;
+        this.reset = reset;
     }
 
     public List<Integer> getScores()

@@ -45,6 +45,7 @@ public class Player
     {
         String destination = "/queue/card";
         simpMessagingTemplate.convertAndSendToUser(username, destination, card);
+        System.out.println("sending card to " + username);
     }
 
     private void play(Card card)

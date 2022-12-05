@@ -1,6 +1,7 @@
 package com.aidansaull.crazyEights;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import java.util.List;
 public class Game
 {
     @Autowired
+    @Lazy
     SimpMessagingTemplate simpMessagingTemplate;
 
     List<Player> players;
@@ -49,10 +51,10 @@ public class Game
         currentPlayer = 0;
         started = true;
         // We can now tell the players that the game has started
-        sendScore();
+        sendScore(false);
         dealHands();
         drawTopCard();
-        sendScore(); // We have to do this again to update cards remaining
+        sendScore(false); // We have to do this again to update cards remaining
     }
 
     private void drawTopCard()
@@ -60,14 +62,14 @@ public class Game
         discard.push(drawNonEight());
     }
 
-    private void sendScore()
+    private void sendScore(boolean reset)
     {
         List<Integer> scores = new ArrayList<Integer>();
         for (Player player : players)
         {
             scores.add(player.score);
         }
-        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size());
+        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset);
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }
@@ -128,6 +130,14 @@ public class Game
         {
             startGame();
         }
+    }
+
+    public void removePlayers()
+    {
+        System.out.println("Oops! Once player left, resetting the game!");
+        sendScore(true);
+        //players.removeAll(players);
+        newGame();
     }
 
     public boolean isStarted()

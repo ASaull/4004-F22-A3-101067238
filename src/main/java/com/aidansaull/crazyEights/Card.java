@@ -13,6 +13,12 @@ public class Card
         }
 
         @Override
+        public String toString()
+        {
+            return "Card " + rank + suit;
+        }
+
+        @Override
         public boolean equals(Object o)
         {
             if (this == o)

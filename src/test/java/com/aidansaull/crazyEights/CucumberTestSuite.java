@@ -5,7 +5,7 @@ import org.junit.platform.suite.api.Suite;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @Suite
-@SelectFile("src/test/resources/features/Test.feature")
+@SelectFile("src/test/resources/features/AcceptanceTest.feature")
 public class CucumberTestSuite
 {
 }

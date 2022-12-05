@@ -18,24 +18,12 @@ public class MainPage extends AbstractPage<MainPage>
         super(webDriver);
     }
 
-    @FindBy(id = "connect")
-    public WebElement connectButton;
+    @FindBy(id = "join")
+    public WebElement joinButton;
 
-    @FindBy(id = "name")
-    public WebElement nameField;
-
-    @FindBy(id = "send")
-    public WebElement sendButton;
-
-    public void clickConnect()
+    public void clickJoin()
     {
-        connectButton.click();
-    }
-
-    public void sendName(String name)
-    {
-        nameField.sendKeys(name);
-        sendButton.click();
+        joinButton.click();
     }
 
     // I copied this from the blackjack demo
@@ -49,10 +37,4 @@ public class MainPage extends AbstractPage<MainPage>
     {
         webDriver.quit();
     }
-
-    /*@Override
-    protected String getPageName()
-    {
-        return "Main Page";
-    }*/
 }
