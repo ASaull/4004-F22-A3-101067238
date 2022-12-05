@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.springframework.stereotype.Service;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +23,7 @@ public class MockUserFactory
         //capabilities.setJavascriptEnabled(true);
 
         final WebDriver edgeDriver = new EdgeDriver();
-        edgeDriver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        edgeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
         edgeDriver.get(location);
         return edgeDriver;
     }

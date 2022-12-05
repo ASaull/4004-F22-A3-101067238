@@ -52,22 +52,11 @@ public class Player
         System.out.println("playing card " + card);
         hand.remove(card);
         game.discard.push(card);
+        game.nextTurn();
     }
 
     public boolean playCard(Card card)
     {
-        // First we check if we even have this card
-//        Card card = null;
-//        for (Card c : hand)
-//        {
-//            if (c.suit == suit && c.rank == rank)
-//            {
-//                card = c;
-//                break;
-//            }
-//        }
-//        if (card == null) // in this case, we do not have the card
-//            return false;
         if (!hand.contains(card))
             return false;
         Card topCard = game.discard.peek();

@@ -48,7 +48,6 @@ public class Game
 
     void startGame()
     {
-        System.out.println("Beginning starting game");
         currentPlayer = 0;
         started = true;
         // We can now tell the players that the game has started
@@ -56,7 +55,6 @@ public class Game
         dealHands();
         drawTopCard();
         sendScore(false); // We have to do this again to update cards remaining
-        System.out.println("Done starting game");
     }
 
     private void drawTopCard()
@@ -77,7 +75,6 @@ public class Game
             scores.add(player.score);
         }
         Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset);
-        System.out.println("sending score, new top card is " + (discard.size()==0 ? null : discard.peek()));
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
     }
@@ -157,5 +154,12 @@ public class Game
     {
         Card card = deck.pop();
         return card;
+    }
+
+    public void nextTurn()
+    {
+        int change = direction ? 1 : -1;
+        currentPlayer = Math.floorMod((currentPlayer+change), 4);
+        sendScore();
     }
 }

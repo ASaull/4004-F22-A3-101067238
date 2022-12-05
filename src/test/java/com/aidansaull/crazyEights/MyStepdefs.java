@@ -58,13 +58,13 @@ public class MyStepdefs
                     webDriver.manage().window().setPosition(new Point(0,0));
                     break;
                 case 1:
-                    webDriver.manage().window().setPosition(new Point(470,0));
+                    webDriver.manage().window().setPosition(new Point(500,0));
                     break;
                 case 2:
-                    webDriver.manage().window().setPosition(new Point(470*2,0));
+                    webDriver.manage().window().setPosition(new Point(500*2,0));
                     break;
                 case 3:
-                    webDriver.manage().window().setPosition(new Point(470*3,0));
+                    webDriver.manage().window().setPosition(new Point(500*3,0));
                     break;
             }
 
@@ -108,12 +108,12 @@ public class MyStepdefs
     @When("player {int} plays {string}")
     public void playerPlaysC(int id, String cardString)
     {
-        MainPage mainPage = userMainPages.get(id);
+        MainPage mainPage = userMainPages.get(id-1);
         mainPage.playCard(cardString);
     }
 
-    @Then("next player is player {int}")
-    public void nextPlayerIsPlayer(Integer id)
+    @Then("current player is player {int}")
+    public void currentPlayerIsPlayer(Integer id)
     {
         MainPage mainPage = userMainPages.get(0); //could be any one
         assertTrue(mainPage.hasText("It is currently Player " + id.toString() + "'s turn."));

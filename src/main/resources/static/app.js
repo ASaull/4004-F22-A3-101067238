@@ -75,6 +75,8 @@ function receiveCard(cardJson)
     btn.appendChild(text);
     btn.addEventListener("click", playCard);
     btn.card = cardJson;
+    btn.type = 'button';
+    btn.id = cardJson["rank"] + cardJson["suit"];
     btn.classList.add('card-button');
     card.appendChild(btn);
 

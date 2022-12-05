@@ -15,4 +15,4 @@ Feature: Multi-player game scoring
     Given top card is '5C'
     And player 1 has '3C' in their hand
     When player 1 plays '3C'
-    Then next player is player 2
+    Then current player is player 2
