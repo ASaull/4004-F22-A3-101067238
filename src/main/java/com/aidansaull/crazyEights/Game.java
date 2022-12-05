@@ -158,6 +158,10 @@ public class Game
 
     public void nextTurn()
     {
+        if (discard.peek().rank == 'A') // Switch direction, we have an ace
+        {
+            direction = !direction;
+        }
         int change = direction ? 1 : -1;
         currentPlayer = Math.floorMod((currentPlayer+change), 4);
         sendScore();

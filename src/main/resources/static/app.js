@@ -4,6 +4,7 @@ var scores;
 var isEight = false;
 var eightSuit;
 var topCard;
+var direction;
 
 function onload()
 {
@@ -115,7 +116,8 @@ function receiveScore(scoreJson)
 
     //Updating turn info
     currentPlayer = scoreJson["currentPlayer"]
-    nextPlayer = (currentPlayer + 1)%4;
+    change = direction ? 1 : -1;
+    nextPlayer = (currentPlayer + change)%4;
     $('#turn-header').text("It is currently Player " + (currentPlayer+1) + "'s turn. It will be Player " + (nextPlayer+1) + "'s turn next.")
 
     //Showing top card
@@ -133,6 +135,9 @@ function receiveScore(scoreJson)
 
     // update playable
     updatePlayable(scoreJson["currentPlayer"]);
+
+    //update direction
+    direction = scoreJson["direction"];
 }
 
 function isPlayable(card, currentPlayer)
