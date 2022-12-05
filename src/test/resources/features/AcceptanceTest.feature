@@ -67,3 +67,10 @@ Feature: Multi-player game scoring
     And player 1 has '7C' in their hand
     When player 1 plays '7C'
     Then top card shows '7C'
+
+  Scenario: testRow53
+    Given top card is 'KC'
+    And player 1 has '8H' in their hand
+    When player 1 plays '8H'
+    Then top card shows '8H'
+    And interface prompts for a new suit

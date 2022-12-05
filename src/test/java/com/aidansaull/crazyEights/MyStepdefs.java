@@ -154,4 +154,11 @@ public class MyStepdefs
         MainPage mainPage = userMainPages.get(0); //can be anybody
         assertEquals(topCardString, mainPage.getTopCard());
     }
+
+    @And("interface prompts for a new suit")
+    public void interfacePromptsForANewSuit()
+    {
+        MainPage mainPage = userMainPages.get(0); //arbitrary
+        assertTrue(mainPage.hasText("Please select the new suit"));
+    }
 }
