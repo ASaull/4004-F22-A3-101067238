@@ -57,14 +57,14 @@ public class Player
 
     public boolean playCard(Card card)
     {
-        if (!hand.contains(card))
-            return false;
-        Card topCard = game.discard.peek();
         if (card.rank == '8') // 8, we can play
         {
             play(card);
             return true;
         }
+        if (!hand.contains(card))
+            return false;
+        Card topCard = game.discard.peek();
         if (game.isEight && card.suit == topCard.suit) // playable if we are playing on an 8
         {
             play(card);

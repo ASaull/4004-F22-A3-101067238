@@ -72,5 +72,4 @@ Feature: Multi-player game scoring
     Given top card is 'KC'
     And player 1 has '8H' in their hand
     When player 1 plays '8H'
-    Then top card shows '8H'
     And interface prompts for a new suit

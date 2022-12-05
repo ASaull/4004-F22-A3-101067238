@@ -4,7 +4,7 @@ var scores;
 var isEight = false;
 var eightSuit;
 var topCard;
-var direction;
+var direction = true;
 
 function onload()
 {
@@ -13,6 +13,7 @@ function onload()
     $("#score-div").hide();
     $("#username").hide();
     $("#leave").hide();
+    $('#eight-div').hide();
 }
 
 
@@ -86,7 +87,22 @@ function receiveCard(cardJson)
 
 function playCard(evt)
 {
+    if (evt.currentTarget.card["rank"] == '8')
+    {
+        $('#eight-div').show();
+        return;
+    }
+    console.log(JSON.stringify(evt.currentTarget.card))
     stompClient.send("/app/play", {}, JSON.stringify(evt.currentTarget.card));
+}
+
+function sendSuit(suit)
+{
+    var cardJson = {};
+    cardJson["suit"] = suit;
+    cardJson["rank"] = '8';
+    stompClient.send("/app/play", {}, JSON.stringify(cardJson));
+    $('#eight-div').hide();
 }
 
 function receiveScore(scoreJson)
@@ -103,6 +119,9 @@ function receiveScore(scoreJson)
     console.log("Got Scores:")
     console.log(scoreJson)
 
+    //update direction
+    direction = scoreJson["direction"];
+
     //setting scores
     var i = 0;
     scoreJson["scores"].forEach(function(score)
@@ -117,6 +136,8 @@ function receiveScore(scoreJson)
     //Updating turn info
     currentPlayer = scoreJson["currentPlayer"]
     change = direction ? 1 : -1;
+    console.log(direction)
+    console.log(change)
     nextPlayer = (currentPlayer + change)%4;
 
     skippedMessage = "";
@@ -142,9 +163,6 @@ function receiveScore(scoreJson)
 
     // update playable
     updatePlayable(scoreJson["currentPlayer"]);
-
-    //update direction
-    direction = (scoreJson["direction"] === 'true');
 }
 
 function isPlayable(card, currentPlayer)

@@ -51,6 +51,7 @@ public class Game
     {
         currentPlayer = 0;
         started = true;
+        direction = true;
         // We can now tell the players that the game has started
         sendScore(false);
         dealHands();

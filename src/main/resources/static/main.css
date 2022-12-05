@@ -43,6 +43,10 @@ div {
     max-height: 110px;
 }
 
+.eight-button {
+  display: inline-block;
+}
+
 .card-button {
 
 }

@@ -86,7 +86,7 @@ public class MyStepdefs
         {
             connectNewPlayer(i);
         }
-        Thread.sleep(1000);
+        Thread.sleep(100);
     }
 
     @Then("player {int} sees {string}")

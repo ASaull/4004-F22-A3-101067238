@@ -36,5 +36,4 @@ public class MessageController
         else
             System.out.println("ERROR!! Player tried to play invalid card! " + card);
     }
-
 }
