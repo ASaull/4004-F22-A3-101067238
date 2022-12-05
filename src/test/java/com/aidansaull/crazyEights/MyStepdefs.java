@@ -168,4 +168,25 @@ public class MyStepdefs
         MainPage mainPage = userMainPages.get(id);
         assertFalse(mainPage.playCard(cardString));
     }
+
+    @When("player {int} has exactly {string} as their hand")
+    public void playerHasExactlyHAsTheirHand(int id, String handStrings)
+    {
+        List<Card> hand = new ArrayList<>();
+        Player player = game.players.get(id);
+        player.hand = new ArrayList<>();
+        // we tell the
+        for(String handString : handStrings.split(","))
+        {
+            Card card = new Card(handString.charAt(0), handString.charAt(1));
+            player.addCard(card);
+        }
+    }
+
+    @Then("player {int} must draw")
+    public void playerMustDraw(int id)
+    {
+        MainPage mainPage = userMainPages.get(id);
+        assertTrue(mainPage.mustDraw());
+    }
 }

@@ -78,3 +78,8 @@ Feature: Multi-player game scoring
     Given top card is 'KC'
     And player 1 has '5S' in their hand
     Then player 1 cannot play '5S'
+
+  Scenario: testRow58
+    Given top card is '7C'
+    When player 1 has exactly '3H' as their hand
+    Then player 1 must draw

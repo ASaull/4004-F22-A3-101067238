@@ -73,4 +73,10 @@ public class MainPage extends AbstractPage<MainPage>
         String fullText = topCardHeader.getText();
         return fullText.substring(fullText.length() - 2); // could hardcode, but whatever
     }
+
+    public boolean mustDraw()
+    {
+        List<WebElement> buttons = driver.findElements(By.className("card-button"));
+        return buttons.size() == 0;
+    }
 }
