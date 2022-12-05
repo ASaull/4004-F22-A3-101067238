@@ -37,3 +37,14 @@ Feature: Multi-player game scoring
     And player 4 has '3C' in their hand
     When player 4 plays '3C'
     Then current player is player 1
+
+  Scenario: testRow47
+    Given top card is '3H'
+    And it is player 4s turn
+    And player 4 has 'AH' in their hand
+    When player 4 plays 'AH'
+    Then current player is player 3
+    And next player is player 2
+    Given player 3 has '7H' in their hand
+    When player 3 plays '7H'
+    Then current player is player 2
