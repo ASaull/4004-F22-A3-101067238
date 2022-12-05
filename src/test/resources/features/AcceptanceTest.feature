@@ -95,7 +95,7 @@ Feature: Multi-player game scoring
     When player 1 has '5C' in their hand
     Then player 1 must play '5C'
 
-  Scenario: testRow59
+  Scenario: testRow60
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
     Then player 1 must draw
@@ -105,3 +105,16 @@ Feature: Multi-player game scoring
     Then player 1 must draw
     When player 1 has '7H' in their hand
     Then player 1 must play '7H'
+
+  Scenario: testRow61
+    Given top card is '7C'
+    When player 1 has exactly '3H' as their hand
+    Then player 1 must draw
+    When player 1 has '6D' in their hand
+    Then player 1 must draw
+    When player 1 has '5S' in their hand
+    Then player 1 must draw
+    When player 1 has '4H' in their hand
+    Then player 1 must draw
+    And top card shows '7C'
+    And current player is player 2
