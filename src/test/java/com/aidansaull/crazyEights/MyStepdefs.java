@@ -161,4 +161,11 @@ public class MyStepdefs
         MainPage mainPage = userMainPages.get(0); //arbitrary
         assertTrue(mainPage.hasText("Please select the new suit"));
     }
+
+    @Then("player {int} cannot play {string}")
+    public void playerCannotPlayS(int id, String cardString)
+    {
+        MainPage mainPage = userMainPages.get(id);
+        assertFalse(mainPage.playCard(cardString));
+    }
 }

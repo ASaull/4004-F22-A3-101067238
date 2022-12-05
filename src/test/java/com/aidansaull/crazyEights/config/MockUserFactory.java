@@ -19,11 +19,8 @@ public class MockUserFactory
     }
 
     public static WebDriver buildNewUser(final String location) {
-        //final DesiredCapabilities capabilities = DesiredCapabilities.edge();
-        //capabilities.setJavascriptEnabled(true);
-
         final WebDriver edgeDriver = new EdgeDriver();
-        edgeDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        edgeDriver.manage().timeouts().implicitlyWait(Duration.ofMillis(500));
         edgeDriver.get(location);
         return edgeDriver;
     }

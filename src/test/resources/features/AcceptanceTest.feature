@@ -73,3 +73,8 @@ Feature: Multi-player game scoring
     And player 1 has '8H' in their hand
     When player 1 plays '8H'
     And interface prompts for a new suit
+
+  Scenario: testRow54
+    Given top card is 'KC'
+    And player 1 has '5S' in their hand
+    Then player 1 cannot play '5S'

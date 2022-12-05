@@ -54,10 +54,18 @@ public class MainPage extends AbstractPage<MainPage>
         driver.quit();
     }
 
-    public void playCard(String cardString)
+    public boolean playCard(String cardString)
     {
-        WebElement button = driver.findElement(By.id(cardString));
-        button.click();
+        try
+        {
+            WebElement button = driver.findElement(By.id(cardString));
+            button.click();
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+        return true;
     }
 
     public String getTopCard()
