@@ -140,4 +140,11 @@ public class MyStepdefs
         MainPage mainPage = userMainPages.get(id-1);
         assertTrue(mainPage.hasText("Your turn was skipped!"));
     }
+
+    @And("it is player {int}s turn")
+    public void itIsPlayerSTurn(int id)
+    {
+        game.currentPlayer = id-1;
+        game.sendScore();
+    }
 }

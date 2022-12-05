@@ -30,3 +30,10 @@ Feature: Multi-player game scoring
     When player 1 plays 'QC'
     Then current player is player 3
     And player 2 is notified that they missed their turn
+
+  Scenario: testRow45
+    Given top card is 'KC'
+    And it is player 4s turn
+    And player 4 has '3C' in their hand
+    When player 4 plays '3C'
+    Then current player is player 1
