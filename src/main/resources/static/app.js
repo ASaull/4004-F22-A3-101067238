@@ -49,18 +49,27 @@ function connect() {
         stompClient.subscribe('/topic/score', function (score) {
             receiveScore(JSON.parse(score.body));
         });
-        stompClient.subscribe('/user/queue/message', function (greeting) {
-            showGreeting(JSON.parse(greeting.body).content);
-        });
         stompClient.subscribe('/user/queue/username', function (greeting) {
             showGreeting(JSON.parse(greeting.body).content);
         });
         stompClient.subscribe('/user/queue/card', function (card) {
             receiveCard(JSON.parse(card.body));
         });
+        stompClient.subscribe('/user/queue/message', function (message) {
+            processMessage(message.body);
+        });
         // We now say hello to the server so that we get added to the list of players
         sendHello();
     });
+}
+
+function processMessage(message)
+{
+    if (message == 'empty')
+    {
+        var list = document.getElementById("hand-list");
+        list.innerHTML = '';
+    }
 }
 
 function receiveCard(cardJson)
@@ -83,6 +92,7 @@ function receiveCard(cardJson)
     card.appendChild(btn);
 
     list.appendChild(card);
+    updatePlayable(username);
 }
 
 function playCard(evt)

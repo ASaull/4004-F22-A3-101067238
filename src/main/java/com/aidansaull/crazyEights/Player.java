@@ -77,4 +77,10 @@ public class Player
         }
         return false;
     }
+
+    public void emptyHand()
+    {
+        String destination = "/queue/message";
+        simpMessagingTemplate.convertAndSendToUser(username, destination, "empty");
+    }
 }
