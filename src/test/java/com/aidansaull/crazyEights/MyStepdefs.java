@@ -184,11 +184,19 @@ public class MyStepdefs
         }
     }
 
-    @Then("player {int} must draw")
-    public void playerMustDraw(int id)
+    @Then("player {int} must draw, gets {string}")
+    public void playerMustDraw(int id, String cardString)
     {
         MainPage mainPage = userMainPages.get(id-1);
+        Player player = game.players.get(id-1);
+
         assertTrue(mainPage.mustDraw());
+
+        List<Card> oldHand = new ArrayList<>();
+        oldHand.addAll(player.hand);
+        mainPage.draw();
+        player.hand = oldHand;
+        player.addCard(new Card(cardString.charAt(0), cardString.charAt(1)));
     }
 
     @Then("player {int} must play {string}")
@@ -196,5 +204,19 @@ public class MyStepdefs
     {
         MainPage mainPage = userMainPages.get(id-1);
         assertTrue(mainPage.mustPlay(cardString));
+    }
+
+    @Then("player {int} must pass")
+    public void playerMustPass(int id)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        assertTrue(mainPage.mustPass());
+    }
+
+    @When("player {int} passes")
+    public void playerPasses(int id)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        mainPage.pass();
     }
 }

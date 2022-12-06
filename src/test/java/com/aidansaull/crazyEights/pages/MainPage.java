@@ -33,6 +33,12 @@ public class MainPage extends AbstractPage<MainPage>
     @FindBy(id = "top-card-header")
     public WebElement topCardHeader;
 
+    @FindBy(id = "pass-button")
+    public WebElement passButton;
+
+    @FindBy(id = "draw-button")
+    public WebElement drawButton;
+
     public void clickJoin()
     {
         joinButton.click();
@@ -87,5 +93,20 @@ public class MainPage extends AbstractPage<MainPage>
         List<WebElement> buttons = driver.findElements(By.className("card-button"));
         buttons.removeIf(n-> (!n.isDisplayed()));
         return buttons.size() == 1 && Objects.equals(buttons.get(0).getAttribute("id"), cardString);
+    }
+
+    public boolean mustPass()
+    {
+        return passButton.isEnabled();
+    }
+
+    public void pass()
+    {
+        passButton.click();
+    }
+
+    public void draw()
+    {
+        drawButton.click();
     }
 }

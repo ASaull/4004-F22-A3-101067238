@@ -82,39 +82,31 @@ Feature: Multi-player game scoring
   Scenario: testRow58
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw
-    When player 1 has '6C' in their hand
-    Then player 1 must play '6C'
+    Then player 1 must draw, gets '6C'
+    And player 1 must play '6C'
 
   Scenario: testRow59
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw
-    When player 1 has '6D' in their hand
-    Then player 1 must draw
-    When player 1 has '5C' in their hand
-    Then player 1 must play '5C'
+    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets '5C'
+    And player 1 must play '5C'
 
   Scenario: testRow60
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw
-    When player 1 has '6D' in their hand
-    Then player 1 must draw
-    When player 1 has '5S' in their hand
-    Then player 1 must draw
-    When player 1 has '7H' in their hand
-    Then player 1 must play '7H'
+    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets '5S'
+    And player 1 must draw, gets '7H'
+    And player 1 must play '7H'
 
   Scenario: testRow61
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw
-    When player 1 has '6D' in their hand
-    Then player 1 must draw
-    When player 1 has '5S' in their hand
-    Then player 1 must draw
-    When player 1 has '4H' in their hand
-    Then player 1 must draw
-    And top card shows '7C'
+    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets '5S'
+    And player 1 must draw, gets '4H'
+    And player 1 must pass
+    When player 1 passes
+    Then top card shows '7C'
     And current player is player 2
