@@ -118,3 +118,9 @@ Feature: Multi-player game scoring
     And player 1 must draw, gets '8H'
     Then player 1 must play '8H'
     And interface prompts player 1 for a new suit
+
+  Scenario: testRow63
+    Given top card is '7C'
+    When player 1 has exactly 'KS,3C' as their hand
+    And player 1 draws, gets '6C'
+    Then player 1 must play '6C'

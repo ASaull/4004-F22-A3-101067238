@@ -219,4 +219,17 @@ public class MyStepdefs
         MainPage mainPage = userMainPages.get(id-1);
         mainPage.pass();
     }
+
+    @And("player {int} draws, gets {string}")
+    public void playerDrawsGetsD(int id, String cardString)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        Player player = game.players.get(id-1);
+
+        List<Card> oldHand = new ArrayList<>();
+        oldHand.addAll(player.hand);
+        mainPage.draw();
+        player.hand = oldHand;
+        player.addCard(new Card(cardString.charAt(0), cardString.charAt(1)));
+    }
 }
