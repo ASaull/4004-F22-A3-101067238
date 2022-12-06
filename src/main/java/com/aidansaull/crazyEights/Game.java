@@ -157,6 +157,7 @@ public class Game
     public Card drawCard()
     {
         Card card = deck.pop();
+        sendScore();
         return card;
     }
 
