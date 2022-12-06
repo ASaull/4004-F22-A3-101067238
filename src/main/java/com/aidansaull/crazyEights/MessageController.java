@@ -47,6 +47,6 @@ public class MessageController
     @MessageMapping("/pass")
     public void pass(Principal principal)
     {
-        game.nextTurn();
+        game.nextTurn(true);
     }
 }

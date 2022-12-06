@@ -25,6 +25,7 @@ public class Game
     boolean isEight;
     Character eightSuit;
     Integer skipped = -1;
+    boolean justPassed = false;
 
     @PostConstruct
     void init()
@@ -161,19 +162,29 @@ public class Game
 
     public void nextTurn()
     {
-        if (discard.peek().rank == 'A') // Switch direction, we have an ace
-        {
-            direction = !direction;
-        }
-        int change = direction ? 1 : -1;
-        if (discard.peek().rank == 'Q') // Someone's turn was skipped, let them know
-        {
-            skipped = Math.floorMod((currentPlayer+change), 4);
-            change *=2;
-        }
+        nextTurn(false);
+    }
+
+    public void nextTurn(boolean justPassed)
+    {
+        int change = direction ? 1 : -1;;
+        if (justPassed) // if we just passed, then we do not apply card effects again
+            justPassed = false; //resetting
         else
         {
-            skipped = -1;
+            if (discard.peek().rank == 'A') // Switch direction, we have an ace
+            {
+                direction = !direction;
+            }
+            change = direction ? 1 : -1;
+            if (discard.peek().rank == 'Q') // Someone's turn was skipped, let them know
+            {
+                skipped = Math.floorMod((currentPlayer + change), 4);
+                change *= 2;
+            } else
+            {
+                skipped = -1;
+            }
         }
         currentPlayer = Math.floorMod((currentPlayer+change), 4);
         sendScore();

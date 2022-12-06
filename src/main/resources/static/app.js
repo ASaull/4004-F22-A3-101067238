@@ -72,8 +72,13 @@ function processMessage(message)
 {
     if (message == 'empty')
     {
-        var list = document.getElementById("hand-list");
-        list.innerHTML = '';
+        var cards = document.querySelectorAll(".card");
+        console.log("cards");
+        console.log(cards);
+        cards.forEach(function(card)
+        {
+            card.remove();
+        });
     }
 }
 
@@ -280,6 +285,7 @@ function showGreeting(message) {
 function pass()
 {
     numDraws = 0;
+    $("#pass-button").prop('disabled', true);
     stompClient.send("/app/pass", {}, {});
 }
 
