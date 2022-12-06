@@ -18,6 +18,7 @@ public class Player
     SimpMessagingTemplate simpMessagingTemplate;
 
     Game game;
+    Integer numDraws = 0;
 
 
     public Player()
@@ -39,6 +40,9 @@ public class Player
     {
         hand.add(card);
         sendCard(card);
+        numDraws++;
+//        if (numDraws == 3)
+//            game.nextTurn();
     }
 
     private void sendCard(Card card)
@@ -82,5 +86,10 @@ public class Player
     {
         String destination = "/queue/message";
         simpMessagingTemplate.convertAndSendToUser(username, destination, "empty");
+    }
+
+    public void nextTurn()
+    {
+        numDraws = 0;
     }
 }

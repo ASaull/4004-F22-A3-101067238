@@ -177,5 +177,9 @@ public class Game
         }
         currentPlayer = Math.floorMod((currentPlayer+change), 4);
         sendScore();
+
+        // tell players that it is a new turn
+        for (Player player : players)
+            player.nextTurn();
     }
 }

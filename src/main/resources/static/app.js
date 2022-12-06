@@ -5,6 +5,9 @@ var isEight = false;
 var eightSuit;
 var topCard;
 var direction = true;
+var numDraws = 0;
+var currentPlayer;
+var lastAdded;
 
 function onload()
 {
@@ -14,6 +17,8 @@ function onload()
     $("#username").hide();
     $("#leave").hide();
     $('#eight-div').hide();
+    $("#draw-button").prop('disabled', true);
+    $("#pass-button").prop('disabled', true);
 }
 
 
@@ -92,7 +97,8 @@ function receiveCard(cardJson)
     card.appendChild(btn);
 
     list.appendChild(card);
-    updatePlayable(username);
+    lastAdded = cardJson;
+    updatePlayable();
 }
 
 function playCard(evt)
@@ -100,10 +106,20 @@ function playCard(evt)
     if (evt.currentTarget.card["rank"] == '8')
     {
         $('#eight-div').show();
+        evt.currentTarget.parentElement.remove();
+        numDraws = 0;
         return;
     }
-    console.log(JSON.stringify(evt.currentTarget.card))
+    evt.currentTarget.parentElement.remove();
+    numDraws = 0;
     stompClient.send("/app/play", {}, JSON.stringify(evt.currentTarget.card));
+}
+
+function drawCard()
+{
+    console.log("Drawing")
+    numDraws++;
+    stompClient.send("/app/draw", {}, {})
 }
 
 function sendSuit(suit)
@@ -172,13 +188,19 @@ function receiveScore(scoreJson)
     $('#remaining-header').text(scoreJson["remaining"] + " cards remain in the deck")
 
     // update playable
-    updatePlayable(scoreJson["currentPlayer"]);
+    currentPlayer = scoreJson["currentPlayer"];
+    updatePlayable();
 }
 
-function isPlayable(card, currentPlayer)
+function isPlayable(card)
 {
     if (currentPlayer != username)
-        return;
+        return false;
+    if (numDraws > 0)
+    {
+        if (lastAdded != card) // this was not last added
+            return false;
+    }
     // we check if this card is playable.
     if (card["rank"] == 8) //eight always playable
     {
@@ -196,19 +218,40 @@ function isPlayable(card, currentPlayer)
     return false;
 }
 
-function updatePlayable(currentPlayer)
+function updatePlayable()
 {
     cards = document.getElementsByClassName('card');
+    var numPlayable = 0
     Array.from(cards).forEach(function(cardli)
     {
         button = cardli.querySelector('.card-button');
         var card = button.card;
-        console.log(button);
-        if (isPlayable(card, currentPlayer)) // we remove the button if it is not playable
+        if (isPlayable(card)) // we remove the button if it is not playable
+        {
             button.style.visibility='visible'
+            numPlayable++;
+        }
         else
+        {
             button.style.visibility='hidden'
+        }
     });
+    // base case for draw button, do thsi before complex cases
+    if (currentPlayer == username)
+        $("#draw-button").prop('disabled', false);
+    else
+        $("#draw-button").prop('disabled', true);
+    if (numPlayable == 0 && numDraws == 3) // nothing can be played, enable pass
+    {
+        $("#pass-button").prop('disabled', false);
+        $("#draw-button").prop('disabled', true);
+    }
+    else if (numPlayable == 1 && numDraws > 0) // one option, cant draw
+    {
+        console.log("one option")
+        $("#pass-button").prop('disabled', true);
+        $("#draw-button").prop('disabled', true);
+    }
 }
 
 function disconnect() {
@@ -232,6 +275,12 @@ function sendGoodbye()
 
 function showGreeting(message) {
     $("#greetings").append("<tr><td>" + message + "</td></tr>");
+}
+
+function pass()
+{
+    numDraws = 0;
+    stompClient.send("/app/pass", {}, {});
 }
 
 $(function () {

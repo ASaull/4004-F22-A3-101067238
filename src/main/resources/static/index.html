@@ -19,15 +19,6 @@
     <h4 id="username">You are: Player n</h4>
     <button id="leave" onclick="disconnect()">Leave Game</button>
 </div>
-<div id="score-div">
-    <h4>Scores: First to 100 loses!</h4>
-    <ul id="score-list">
-        <li class='score-li' id="p1-score"></li>
-        <li class='score-li' id="p2-score"></li>
-        <li class='score-li' id="p3-score"></li>
-        <li class='score-li' id="p4-score"></li>
-    </ul>
-</div>
 <div id="eight-div">
     <h4>Please select the new suit</h4>
     <button class="eight-button" onclick="sendSuit('C')">Clubs</button>
@@ -43,6 +34,17 @@
     </div>
     <h4>Your hand:</h4>
     <ul id="hand-list">
+        <li id="draw-li"> <button id="draw-button" onclick="drawCard()">Draw</button></li>
+        <li id="pass-li"> <button id="pass-button" onclick="pass()">Pass</button></li>
+    </ul>
+</div>
+<div id="score-div">
+    <h4>Scores: First to 100 loses!</h4>
+    <ul id="score-list">
+        <li class='score-li' id="p1-score"></li>
+        <li class='score-li' id="p2-score"></li>
+        <li class='score-li' id="p3-score"></li>
+        <li class='score-li' id="p4-score"></li>
     </ul>
 </div>
 </body>

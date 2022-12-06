@@ -36,4 +36,17 @@ public class MessageController
         else
             System.out.println("ERROR!! Player tried to play invalid card! " + card);
     }
+
+    @MessageMapping("/draw")
+    public void draw(Principal principal)
+    {
+        Player player = game.players.get(Integer.parseInt(principal.getName()));
+        player.addCard(game.drawCard());
+    }
+
+    @MessageMapping("/pass")
+    public void pass(Principal principal)
+    {
+        game.nextTurn();
+    }
 }
