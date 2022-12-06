@@ -72,7 +72,7 @@ Feature: Multi-player game scoring
     Given top card is 'KC'
     And player 1 has '8H' in their hand
     When player 1 plays '8H'
-    And interface prompts for a new suit
+    And interface prompts player 1 for a new suit
 
   Scenario: testRow54
     Given top card is 'KC'
@@ -82,31 +82,39 @@ Feature: Multi-player game scoring
   Scenario: testRow58
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw, gets '6C'
-    And player 1 must play '6C'
+    And player 1 must draw, gets '6C'
+    Then player 1 must play '6C'
 
   Scenario: testRow59
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets '6D'
     And player 1 must draw, gets '5C'
-    And player 1 must play '5C'
+    Then player 1 must play '5C'
 
   Scenario: testRow60
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets '6D'
     And player 1 must draw, gets '5S'
     And player 1 must draw, gets '7H'
-    And player 1 must play '7H'
+    Then player 1 must play '7H'
 
   Scenario: testRow61
     Given top card is '7C'
     When player 1 has exactly '3H' as their hand
-    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets '6D'
     And player 1 must draw, gets '5S'
     And player 1 must draw, gets '4H'
-    And player 1 must pass
+    Then player 1 must pass
     When player 1 passes
     Then top card shows '7C'
     And current player is player 2
+
+  Scenario: testRow62
+    Given top card is '7C'
+    When player 1 has exactly '3H' as their hand
+    And player 1 must draw, gets '6D'
+    And player 1 must draw, gets '8H'
+    Then player 1 must play '8H'
+    And interface prompts player 1 for a new suit

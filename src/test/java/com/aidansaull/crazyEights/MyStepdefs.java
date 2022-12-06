@@ -155,10 +155,10 @@ public class MyStepdefs
         assertEquals(topCardString, mainPage.getTopCard());
     }
 
-    @And("interface prompts for a new suit")
-    public void interfacePromptsForANewSuit()
+    @And("interface prompts player {int} for a new suit")
+    public void interfacePromptsForANewSuit(int id)
     {
-        MainPage mainPage = userMainPages.get(0); //arbitrary
+        MainPage mainPage = userMainPages.get(id-1);
         assertTrue(mainPage.hasText("Please select the new suit"));
     }
 
