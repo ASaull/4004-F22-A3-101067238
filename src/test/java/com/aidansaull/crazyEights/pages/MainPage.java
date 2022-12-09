@@ -1,19 +1,12 @@
 package com.aidansaull.crazyEights.pages;
 
-import com.aidansaull.crazyEights.Card;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Wait;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.sql.Time;
-import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
 
 @Component
 @Lazy
@@ -121,9 +114,9 @@ public class MainPage extends AbstractPage<MainPage>
 
     public boolean checkScores(int p1Score, int p2Score, int p3Score, int p4Score)
     {
-        return Integer.parseInt(p1ScoreText.getText().split(" ")[0]) == p1Score
-                && Integer.parseInt(p2ScoreText.getText().split(" ")[0]) == p2Score
-                && Integer.parseInt(p3ScoreText.getText().split(" ")[0]) == p3Score
-                && Integer.parseInt(p4ScoreText.getText().split(" ")[0]) == p4Score;
+        return Integer.parseInt(p1ScoreText.getText().split(" ")[2]) == p1Score
+                && Integer.parseInt(p2ScoreText.getText().split(" ")[2]) == p2Score
+                && Integer.parseInt(p3ScoreText.getText().split(" ")[2]) == p3Score
+                && Integer.parseInt(p4ScoreText.getText().split(" ")[2]) == p4Score;
     }
 }
