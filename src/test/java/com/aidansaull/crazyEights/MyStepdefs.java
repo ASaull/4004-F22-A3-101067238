@@ -232,4 +232,18 @@ public class MyStepdefs
         player.hand = oldHand;
         player.addCard(new Card(cardString.charAt(0), cardString.charAt(1)));
     }
+
+    @Then("player {int} must draw 2 cards, gets {string}")
+    public void playerMustDrawCardsGetsCD(int id, String cardString)
+    {
+
+    }
+
+    @Then("the round is over with scores {int} {int} {int} {int}")
+    public void theRoundIsOverWithScores(int p1Score, int p2Score, int p3Score, int p4Score)
+    {
+        MainPage mainPage = userMainPages.get(0); // doesn't matter
+        assertTrue(mainPage.hasText("Round ended"));
+        assertTrue(mainPage.checkScores(p1Score,p2Score,p3Score,p4Score));
+    }
 }

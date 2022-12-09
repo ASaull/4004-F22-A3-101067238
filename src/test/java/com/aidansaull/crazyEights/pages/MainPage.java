@@ -39,6 +39,15 @@ public class MainPage extends AbstractPage<MainPage>
     @FindBy(id = "draw-button")
     public WebElement drawButton;
 
+    @FindBy(id = "p1-score")
+    public WebElement p1ScoreText;
+    @FindBy(id = "p2-score")
+    public WebElement p2ScoreText;
+    @FindBy(id = "p3-score")
+    public WebElement p3ScoreText;
+    @FindBy(id = "p4-score")
+    public WebElement p4ScoreText;
+
     public void clickJoin()
     {
         joinButton.click();
@@ -108,5 +117,13 @@ public class MainPage extends AbstractPage<MainPage>
     public void draw()
     {
         drawButton.click();
+    }
+
+    public boolean checkScores(int p1Score, int p2Score, int p3Score, int p4Score)
+    {
+        return Integer.parseInt(p1ScoreText.getText().split(" ")[0]) == p1Score
+                && Integer.parseInt(p2ScoreText.getText().split(" ")[0]) == p2Score
+                && Integer.parseInt(p3ScoreText.getText().split(" ")[0]) == p3Score
+                && Integer.parseInt(p4ScoreText.getText().split(" ")[0]) == p4Score;
     }
 }

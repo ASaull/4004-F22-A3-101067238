@@ -124,3 +124,13 @@ Feature: Multi-player game scoring
     When player 1 has exactly 'KS,3C' as their hand
     And player 1 draws, gets '6C'
     Then player 1 must play '6C'
+
+  Scenario: testRow78
+    Given top card is '4S'
+    And player 1 has exactly '1S' as their hand
+    And player 2 has exactly '5S' as their hand
+    And player 3 has exactly '8H,JH,6H,KH,KS' as their hand
+    And player 4 has exactly '8C,8D,2S' as their hand
+    And it is player 2s turn
+    When player 2 plays '5S'
+    Then the round is over with scores 1 0 86 102
