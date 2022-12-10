@@ -170,13 +170,14 @@ public class MyStepdefs
     }
 
     @When("player {int} has exactly {string} as their hand")
-    public void playerHasExactlyHAsTheirHand(int id, String handStrings)
+    public void playerHasExactlyHAsTheirHand(int id, String handStrings) throws InterruptedException
     {
         List<Card> hand = new ArrayList<>();
         Player player = game.players.get(id-1);
         player.hand = new ArrayList<>();
         // we tell the player to empty their hand
         player.emptyHand();
+        Thread.sleep(100);
         for(String handString : handStrings.split(","))
         {
             Card card = new Card(handString.charAt(0), handString.charAt(1), false);
