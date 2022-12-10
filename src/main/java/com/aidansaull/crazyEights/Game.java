@@ -35,7 +35,7 @@ public class Game
         newGame();
     }
 
-    private Card drawNonEight() throws InterruptedException
+    private Card drawNonEight()
     {
         Card card;
         card = drawCard();
@@ -48,7 +48,7 @@ public class Game
         return card;
     }
 
-    void startGame() throws InterruptedException
+    void startGame()
     {
         for(Player player : players)
         {
@@ -66,23 +66,22 @@ public class Game
         // We can now tell the players that the game has started
         sendScore(false);
         dealHands();
-        //Thread.sleep(100);
         drawTopCard();
         started = true;
         sendScore(false); // We have to do this again to update cards remaining
     }
 
-    private void drawTopCard() throws InterruptedException
+    private void drawTopCard()
     {
         discard.push(drawNonEight());
     }
 
-    public void sendScore() throws InterruptedException
+    public void sendScore()
     {
         sendScore(false);
     }
 
-    public void sendScore(boolean reset) throws InterruptedException
+    public void sendScore(boolean reset)
     {
         List<Integer> scores = new ArrayList<>();
         boolean roundOver = false;
@@ -148,7 +147,7 @@ public class Game
         players = new ArrayList<Player>();
     }
 
-    private void dealHands() throws InterruptedException
+    private void dealHands()
     {
         for (int i = 0; i < 2; i++)
         {
@@ -174,7 +173,7 @@ public class Game
         Collections.shuffle(deck);
     }
 
-    public void addPlayer(Player player) throws InterruptedException
+    public void addPlayer(Player player)
     {
         players.add(player);
         if (players.size() == 4)
@@ -183,7 +182,7 @@ public class Game
         }
     }
 
-    public void removePlayers() throws InterruptedException
+    public void removePlayers()
     {
         System.out.println("Oops! One player left, resetting the game!");
         sendScore(true);
@@ -196,19 +195,19 @@ public class Game
         return started;
     }
 
-    public Card drawCard() throws InterruptedException
+    public Card drawCard()
     {
         Card card = deck.pop();
         sendScore();
         return card;
     }
 
-    public void nextTurn() throws InterruptedException
+    public void nextTurn()
     {
         nextTurn(false);
     }
 
-    public void nextTurn(boolean justPassed) throws InterruptedException
+    public void nextTurn(boolean justPassed)
     {
         int change = direction ? 1 : -1;;
         if (justPassed) // if we just passed, then we do not apply card effects again

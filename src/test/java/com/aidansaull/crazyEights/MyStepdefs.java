@@ -97,7 +97,7 @@ public class MyStepdefs
     }
 
     @Given("top card is {string}")
-    public void topCardIs(String cardString) throws InterruptedException
+    public void topCardIs(String cardString)
     {
         Character rank = cardString.charAt(0);
         Character suit = cardString.charAt(1);
@@ -142,7 +142,7 @@ public class MyStepdefs
     }
 
     @And("it is player {int}s turn")
-    public void itIsPlayerSTurn(int id) throws InterruptedException
+    public void itIsPlayerSTurn(int id)
     {
         game.currentPlayer = id-1;
         game.sendScore();

@@ -21,7 +21,7 @@ public class GameUnitTest
     @Autowired
     PlayerFactory playerFactory;
 
-    private void addPlayersToGame() throws InterruptedException
+    private void addPlayersToGame()
     {
         Player player = playerFactory.createInstance("0");
         Player player2 = playerFactory.createInstance("1");
@@ -35,7 +35,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testGameStarts() throws InterruptedException
+    public void testGameStarts()
     {
         game.newGame();
         Player player = playerFactory.createInstance("0");
@@ -60,7 +60,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testDrawCard() throws InterruptedException
+    public void testDrawCard()
     {
         game.newGame();
         Card card = game.drawCard();
@@ -74,7 +74,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testDealHands() throws InterruptedException
+    public void testDealHands()
     {
         game.newGame();
         addPlayersToGame();
@@ -86,7 +86,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testDiscardPile() throws InterruptedException
+    public void testDiscardPile()
     {
         game.newGame();
         addPlayersToGame();
@@ -95,7 +95,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testReshuffleEight() throws InterruptedException
+    public void testReshuffleEight()
     {
         game.newGame();
         addPlayersToGame();
@@ -109,7 +109,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testInitialScores() throws InterruptedException
+    public void testInitialScores()
     {
         game.newGame();
         addPlayersToGame();
@@ -129,7 +129,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testPlayCard() throws InterruptedException
+    public void testPlayCard()
     {
         game.newGame();
         addPlayersToGame();

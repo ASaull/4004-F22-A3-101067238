@@ -16,19 +16,19 @@ public class MessageController
     PlayerFactory playerFactory;
 
     @MessageMapping("/hello")
-    public void hello(Principal principal) throws InterruptedException
+    public void hello(Principal principal)
     {
         game.addPlayer(playerFactory.createInstance(principal.getName()));
     }
 
     @MessageMapping("/goodbye")
-    public void goodbye() throws InterruptedException
+    public void goodbye()
     {
         game.removePlayers();
     }
 
     @MessageMapping("/play")
-    public void play(Card card, Principal principal) throws InterruptedException
+    public void play(Card card, Principal principal)
     {
         Player player = game.players.get(Integer.parseInt(principal.getName()));
         if (player.playCard(card))
@@ -38,14 +38,14 @@ public class MessageController
     }
 
     @MessageMapping("/draw")
-    public void draw(Principal principal) throws InterruptedException
+    public void draw(Principal principal)
     {
         Player player = game.players.get(Integer.parseInt(principal.getName()));
         player.addCard(game.drawCard());
     }
 
     @MessageMapping("/pass")
-    public void pass(Principal principal) throws InterruptedException
+    public void pass(Principal principal)
     {
         game.nextTurn(true);
     }

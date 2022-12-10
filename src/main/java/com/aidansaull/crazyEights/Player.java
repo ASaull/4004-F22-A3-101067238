@@ -52,7 +52,7 @@ public class Player
         simpMessagingTemplate.convertAndSendToUser(username, destination, card);
     }
 
-    private void play(Card card) throws InterruptedException
+    private void play(Card card)
     {
         System.out.println("playing card " + card);
         // If eight, we remove any eight from their hand.
@@ -76,7 +76,7 @@ public class Player
         game.nextTurn();
     }
 
-    public boolean playCard(Card card) throws InterruptedException
+    public boolean playCard(Card card)
     {
         if (card.rank == '8') // 8, we can play
         {
