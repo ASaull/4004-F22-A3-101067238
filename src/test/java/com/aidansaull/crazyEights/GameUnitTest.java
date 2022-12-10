@@ -100,8 +100,8 @@ public class GameUnitTest
         game.newGame();
         addPlayersToGame();
         // This will cause the game to draw an 8 twice in a row
-        game.deck.push(new Card('8', 'H'));
-        game.deck.push(new Card('8', 'C'));
+        game.deck.push(new Card('8', 'H', false));
+        game.deck.push(new Card('8', 'C', false));
         game.startGame();
         // assert that the 8 has been reshuffled
         Card card = game.discard.peek();
@@ -133,25 +133,25 @@ public class GameUnitTest
     {
         game.newGame();
         addPlayersToGame();
-        game.discard.push(new Card('4', 'C'));
+        game.discard.push(new Card('4', 'C', false));
         assertEquals(2, game.discard.size());
         Player player = game.players.get(0);
         player.hand.removeAll(player.hand);
-        player.addCard(new Card('5', 'C'));
-        player.addCard(new Card('5', 'H'));
-        player.addCard(new Card('8', 'D'));
+        player.addCard(new Card('5', 'C', false));
+        player.addCard(new Card('5', 'H', false));
+        player.addCard(new Card('8', 'D', false));
 
         // Will be true because this card exists and is playable
-        assertTrue(player.playCard(new Card('5', 'C')));
+        assertTrue(player.playCard(new Card('5', 'C', false)));
 
         // Will be false because this card does not exist
-        assertFalse(player.playCard(new Card('5', 'C')));
+        assertFalse(player.playCard(new Card('5', 'C', false)));
 
         // Will be false because this card is not playable
-        assertFalse(player.playCard(new Card('6', 'H')));
+        assertFalse(player.playCard(new Card('6', 'H', false)));
 
         // Will be true because we can always play an 8
-        assertTrue(player.playCard(new Card('8', 'D')));
+        assertTrue(player.playCard(new Card('8', 'D', false)));
 
         //check that cards have been played
         assertEquals(4, game.discard.size());

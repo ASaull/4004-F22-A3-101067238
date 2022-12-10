@@ -72,7 +72,7 @@ Feature: Multi-player game scoring
     Given top card is 'KC'
     And player 1 has '8H' in their hand
     When player 1 plays '8H'
-    And interface prompts player 1 for a new suit
+    Then interface prompts player 1 for a new suit
 
   Scenario: testRow54
     Given top card is 'KC'
@@ -134,3 +134,79 @@ Feature: Multi-player game scoring
     And it is player 2s turn
     When player 2 plays '5S'
     Then the game is over with scores 1 0 86 102
+
+  Scenario: testRow80
+    Given player 1 has exactly '4H,7S,5D,6D,9D' as their hand
+    And player 2 has exactly '4S,6S,KC,8H,TD' as their hand
+    And player 3 has exactly '9S,6C,9C,JD,3H' as their hand
+    And player 4 has exactly '7D,JH,QH,KH,5C' as their hand
+    And top card is '4D'
+    When player 1 plays '4H'
+    And player 2 plays '4S'
+    And player 3 plays '9S'
+    Then player 4 must draw, gets '2C'
+    And player 4 must draw, gets '3C'
+    And player 4 must draw, gets '4C'
+    And player 4 passes
+    And current player is player 1
+    When player 1 plays '7S'
+    And player 2 plays '6S'
+    And player 3 plays '6C'
+    And player 4 plays '2C'
+    Then player 1 must draw, gets 'TH'
+    And player 1 must draw, gets 'JC'
+    When player 1 plays 'JC'
+    And player 2 plays 'KC'
+    And player 3 plays '9C'
+    And player 4 plays '3C'
+    Then player 1 must draw, gets '7C'
+    When player 1 plays '7C'
+    And player 2 plays '8H'
+    And player 2 selects suit 'D'
+    And player 3 plays 'JD'
+    And player 4 plays '7D'
+    And player 1 plays '9D'
+    Then player 1 shows hand '5D,6D,TH'
+    And player 2 shows hand 'TD'
+    And player 3 shows hand '3H'
+    And player 4 shows hand 'JH,QH,KH,5C,4C'
+    When player 2 plays 'TD'
+    Then the round is over with scores 21 0 3 39
+    And it is player 2s turn
+    Given top card is 'TD'
+    And player 1 has exactly '7D,4S,7C,4H,5D' as their hand
+    And player 2 has exactly '9D,3S,9C,3H,JC' as their hand
+    And player 3 has exactly '3D,9S,3C,9H,5H' as their hand
+    And player 4 has exactly '4D,7S,4C,5S,8D' as their hand
+    When player 2 plays '9D'
+    And player 3 plays '3D'
+    And player 4 plays '4D'
+    And player 1 plays '4S'
+    And player 2 plays '3S'
+    And player 3 plays '9S'
+    And player 4 plays '7S'
+    And player 1 plays '7C'
+    And player 2 plays '9C'
+    And player 3 plays '3C'
+    And player 4 plays '4C'
+    And player 1 plays '4H'
+    And player 2 plays '3H'
+    And player 3 plays '9H'
+    And player 4 draws, gets 'KS'
+    Then player 4 must draw, gets 'QS'
+    And player 4 must draw, gets 'KH'
+    When player 4 plays 'KH'
+    Then player 1 must draw, gets '6D'
+    And player 1 must draw, gets 'QD'
+    And player 1 must draw, gets 'JD'
+    And player 1 passes
+    And player 2 must draw, gets '6S'
+    And player 2 must draw, gets 'JS'
+    And player 2 must draw, gets 'TS'
+    And player 2 passes
+    And player 1 shows hand '5D,6D,7D,JD,QD'
+    And player 2 shows hand 'JC,6S,TS,JS'
+    And player 3 shows hand '5H'
+    And player 4 shows hand '5S,8D,KS,QS'
+    When player 3 plays '5H'
+    Then the game is over with scores 59 36 3 114

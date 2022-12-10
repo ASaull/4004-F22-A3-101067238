@@ -1,10 +1,14 @@
 package com.aidansaull.crazyEights.pages;
 
+import jdk.jfr.Timespan;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
 
@@ -19,6 +23,10 @@ public class MainPage extends AbstractPage<MainPage>
 
     @FindBy(id = "join")
     public WebElement joinButton;
+
+    @FindBy(id = "hand-list")
+    public WebElement handList;
+
 
     @FindBy(id = "leave")
     public WebElement leaveButton;
@@ -72,6 +80,7 @@ public class MainPage extends AbstractPage<MainPage>
         }
         catch (Exception e)
         {
+            System.out.println(e);
             return false;
         }
         return true;
@@ -118,5 +127,17 @@ public class MainPage extends AbstractPage<MainPage>
                 && Integer.parseInt(p2ScoreText.getText().split(" ")[2]) == p2Score
                 && Integer.parseInt(p3ScoreText.getText().split(" ")[2]) == p3Score
                 && Integer.parseInt(p4ScoreText.getText().split(" ")[2]) == p4Score;
+    }
+
+    public void selectSuit(String suit)
+    {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofMillis(500));
+        WebElement suitButton = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id(suit + "-button")));
+        suitButton.click();
+    }
+
+    public int getHandSize()
+    {
+        return driver.findElements(By.className("card-button")).size();
     }
 }
