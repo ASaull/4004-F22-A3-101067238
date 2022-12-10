@@ -94,7 +94,13 @@ function processMessage(message)
 
 function receiveCard(cardJson)
 {
-    console.log("received card")
+    console.log("received card " + cardJson["rank"] + cardJson["suit"])
+    //resetting hand if asked
+    if (cardJson["resetHand"])
+    {
+        resetHand();
+        cardJson["resetHand"] = false;
+    }
     //showing our hand
     var list = document.getElementById("hand-list")
     var card = document.createElement('li');
@@ -145,6 +151,17 @@ function sendSuit(suit)
     cardJson["rank"] = '8';
     stompClient.send("/app/play", {}, JSON.stringify(cardJson));
     $('#eight-div').hide();
+}
+
+function resetHand()
+{
+    var cards = document.getElementsByClassName("card-button");
+    console.log("removing cards")
+    console.log(cards)
+    for (var i = cards.length-1; i >= 0; i--)
+    {
+        cards.item(i).parentElement.remove();
+    }
 }
 
 function receiveScore(scoreJson)
@@ -219,13 +236,7 @@ function receiveScore(scoreJson)
         roundOverBuffer = true;
         lowestDeckSizeSeen = 52;
         // removing cards from hand
-        var cards = document.getElementsByClassName("card-button");
-        console.log("removing cards")
-        console.log(cards)
-        for (var i = cards.length-1; i >= 0; i--)
-        {
-            cards.item(i).parentElement.remove();
-        }
+        resetHand();
     }
 
     // messaging game or round over
@@ -249,6 +260,7 @@ function isPlayable(card)
         return false;
     if (numDraws > 0)
     {
+        console.log("checking " + card["rank"] + card["suit"] + " for num draws last added is " + lastAdded["rank"] + lastAdded["suit"])
         if (lastAdded != card) // this was not last added
             return false;
     }
