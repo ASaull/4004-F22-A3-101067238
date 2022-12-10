@@ -39,11 +39,10 @@ public class Player
 
     public void addCard(Card card)
     {
+        System.out.println(username + " adding card to player " + card);
         hand.add(card);
         sendCard(card);
         numDraws++;
-//        if (numDraws == 3)
-//            game.nextTurn();
     }
 
     private void sendCard(Card card)

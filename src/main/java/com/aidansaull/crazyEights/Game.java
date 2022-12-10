@@ -86,8 +86,6 @@ public class Game
         List<Integer> scores = new ArrayList<>();
         boolean roundOver = false;
         boolean gameOver = false;
-
-        System.out.println("-------------------");
         for (Player player : players)
         {
             System.out.println(player.hand.size());
@@ -103,7 +101,6 @@ public class Game
 
         if (roundOver)
         {
-            System.out.println("round voer");
             for (Player player : players)
             {
                 scores.add(player.score());
@@ -166,7 +163,7 @@ public class Game
         {
             for (Character suit : suits)
             {
-                Card card = new Card(rank, suit);
+                Card card = new Card(rank, suit, false);
                 deck.add(card);
             }
         }

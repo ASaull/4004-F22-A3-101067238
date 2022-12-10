@@ -2,6 +2,13 @@ package com.aidansaull.crazyEights;
 
 public class Card
     {
+        public boolean isResetHand()
+        {
+            return resetHand;
+        }
+
+        boolean resetHand;
+
         public Character getSuit()
         {
             return suit;
@@ -34,9 +41,17 @@ public class Card
         Character suit;
         Character rank;
 
-        public Card(Character rank, Character suit)
+        /*public Card(Character rank, Character suit)
         {
             this.rank = rank;
             this.suit = suit;
+            this.resetHand = false;
+        }*/
+
+        public Card(Character rank, Character suit, boolean resetHand)
+        {
+            this.rank = rank;
+            this.suit = suit;
+            this.resetHand = resetHand;
         }
     }
