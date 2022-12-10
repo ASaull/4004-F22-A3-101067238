@@ -149,7 +149,7 @@ public class Game
 
     private void dealHands()
     {
-        for (int i = 0; i < 2; i++)
+        for (int i = 0; i < 5; i++)
         {
             for (Player player : players)
             {
