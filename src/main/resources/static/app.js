@@ -8,6 +8,9 @@ var direction = true;
 var numDraws = 0;
 var currentPlayer;
 var lastAdded;
+var gameOverBuffer = false;
+var roundOverBuffer = false;
+var lowestDeckSizeSeen = 52;
 
 function onload()
 {
@@ -66,6 +69,7 @@ function connect() {
         // We now say hello to the server so that we get added to the list of players
         sendHello();
     });
+    gameOverBuffer = false;
 }
 
 function processMessage(message)
@@ -118,6 +122,7 @@ function playCard(evt)
     evt.currentTarget.parentElement.remove();
     numDraws = 0;
     stompClient.send("/app/play", {}, JSON.stringify(evt.currentTarget.card));
+    roundOverBuffer = false;
 }
 
 function drawCard()
@@ -190,11 +195,46 @@ function receiveScore(scoreJson)
     $('#username').text('You are: Player ' + (parseInt(username)+1));
 
     //Show number cards remaining
-    $('#remaining-header').text(scoreJson["remaining"] + " cards remain in the deck")
+    if (scoreJson["remaining"] < lowestDeckSizeSeen)
+        lowestDeckSizeSeen = scoreJson["remaining"];
+    $('#remaining-header').text(lowestDeckSizeSeen + " cards remain in the deck")
 
     // update playable
     currentPlayer = scoreJson["currentPlayer"];
     updatePlayable();
+
+    // checking if round over
+    if (scoreJson["gameOver"])
+    {
+        gameOverBuffer = true;
+    }
+    else if (scoreJson["roundOver"])
+    {
+        roundOverBuffer = true;
+        lowestDeckSizeSeen = 52;
+        // removing cards from hand
+        var cards = document.getElementsByClassName("card-button");
+        console.log("removing cards")
+        console.log(cards)
+        for (var i = cards.length-1; i >= 0; i--)
+        {
+            cards.item(i).parentElement.remove();
+        }
+    }
+
+    // messaging game or round over
+    if (gameOverBuffer)
+    {
+        $('#game-status').text("Game over!")
+    }
+    else if (roundOverBuffer)
+    {
+        $('#game-status').text("Round over!")
+    }
+    else
+    {
+        $('#game-status').text("")
+    }
 }
 
 function isPlayable(card)

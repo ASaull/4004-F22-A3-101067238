@@ -21,7 +21,7 @@ public class GameUnitTest
     @Autowired
     PlayerFactory playerFactory;
 
-    private void addPlayersToGame()
+    private void addPlayersToGame() throws InterruptedException
     {
         Player player = playerFactory.createInstance("0");
         Player player2 = playerFactory.createInstance("1");
@@ -35,7 +35,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testGameStarts()
+    public void testGameStarts() throws InterruptedException
     {
         game.newGame();
         Player player = playerFactory.createInstance("0");
@@ -60,7 +60,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testDrawCard()
+    public void testDrawCard() throws InterruptedException
     {
         game.newGame();
         Card card = game.drawCard();
@@ -109,7 +109,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testInitialScores()
+    public void testInitialScores() throws InterruptedException
     {
         game.newGame();
         addPlayersToGame();
@@ -129,7 +129,7 @@ public class GameUnitTest
     }
 
     @Test
-    public void testPlayCard()
+    public void testPlayCard() throws InterruptedException
     {
         game.newGame();
         addPlayersToGame();

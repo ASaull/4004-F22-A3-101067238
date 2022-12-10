@@ -22,6 +22,7 @@ public class Game
     Stack<Card> discard;
     boolean direction;
     Integer currentPlayer;
+    Integer currentPlayerCounter;
     boolean isEight;
     Character eightSuit;
     Integer skipped = -1;
@@ -34,7 +35,7 @@ public class Game
         newGame();
     }
 
-    private Card drawNonEight()
+    private Card drawNonEight() throws InterruptedException
     {
         Card card;
         card = drawCard();
@@ -47,39 +48,84 @@ public class Game
         return card;
     }
 
-
-    void startGame()
+    void startGame() throws InterruptedException
     {
-        currentPlayer = 0;
-        started = true;
+        for(Player player : players)
+        {
+            player.hand = new ArrayList<>();
+        }
+        started = false;
+        currentPlayer = currentPlayerCounter;
+        currentPlayerCounter = Math.floorMod((currentPlayerCounter+1), 4);;
+        deck = new Stack<Card>();
+        discard = new Stack<Card>();
         direction = true;
+        isEight = false;
+        skipped = -1;
+        shuffleDeck();
         // We can now tell the players that the game has started
         sendScore(false);
         dealHands();
+        //Thread.sleep(100);
         drawTopCard();
+        started = true;
         sendScore(false); // We have to do this again to update cards remaining
     }
 
-    private void drawTopCard()
+    private void drawTopCard() throws InterruptedException
     {
         discard.push(drawNonEight());
     }
 
-    public void sendScore()
+    public void sendScore() throws InterruptedException
     {
         sendScore(false);
     }
 
-    public void sendScore(boolean reset)
+    public void sendScore(boolean reset) throws InterruptedException
     {
         List<Integer> scores = new ArrayList<>();
+        boolean roundOver = false;
+        boolean gameOver = false;
+
+        System.out.println("-------------------");
         for (Player player : players)
         {
-            scores.add(player.score);
+            System.out.println(player.hand.size());
+            if (player.hand.size() == 0 && started) // This player has won the round
+            {
+                roundOver = true;
+                break;
+            }
         }
-        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset, skipped);
+
+        if (deck.size() == 0 && started)
+            roundOver = true;
+
+        if (roundOver)
+        {
+            System.out.println("round voer");
+            for (Player player : players)
+            {
+                scores.add(player.score());
+                if (player.score >= 100)
+                    gameOver = true;
+            }
+        }
+        else
+        {
+            for (Player player : players)
+            {
+                scores.add(player.score);
+            }
+        }
+
+        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset, skipped, roundOver, gameOver);
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
+
+        if (roundOver && !gameOver)
+            startGame();
     }
 
     void sendToPlayer(Integer id, String destination, String message)
@@ -96,19 +142,15 @@ public class Game
 
     public void newGame()
     {
+        currentPlayer = 0;
+        currentPlayerCounter = 0;
         started = false;
         players = new ArrayList<Player>();
-        deck = new Stack<Card>();
-        discard = new Stack<Card>();
-        direction = true;
-        isEight = false;
-        skipped = -1;
-        shuffleDeck();
     }
 
-    private void dealHands()
+    private void dealHands() throws InterruptedException
     {
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < 2; i++)
         {
             for (Player player : players)
             {
@@ -132,7 +174,7 @@ public class Game
         Collections.shuffle(deck);
     }
 
-    public void addPlayer(Player player)
+    public void addPlayer(Player player) throws InterruptedException
     {
         players.add(player);
         if (players.size() == 4)
@@ -141,7 +183,7 @@ public class Game
         }
     }
 
-    public void removePlayers()
+    public void removePlayers() throws InterruptedException
     {
         System.out.println("Oops! One player left, resetting the game!");
         sendScore(true);
@@ -154,19 +196,19 @@ public class Game
         return started;
     }
 
-    public Card drawCard()
+    public Card drawCard() throws InterruptedException
     {
         Card card = deck.pop();
         sendScore();
         return card;
     }
 
-    public void nextTurn()
+    public void nextTurn() throws InterruptedException
     {
         nextTurn(false);
     }
 
-    public void nextTurn(boolean justPassed)
+    public void nextTurn(boolean justPassed) throws InterruptedException
     {
         int change = direction ? 1 : -1;;
         if (justPassed) // if we just passed, then we do not apply card effects again

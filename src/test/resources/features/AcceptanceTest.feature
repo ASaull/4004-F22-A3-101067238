@@ -133,4 +133,4 @@ Feature: Multi-player game scoring
     And player 4 has exactly '8C,8D,2S' as their hand
     And it is player 2s turn
     When player 2 plays '5S'
-    Then the round is over with scores 1 0 86 102
+    Then the game is over with scores 1 0 86 102

@@ -142,7 +142,7 @@ public class MyStepdefs
     }
 
     @And("it is player {int}s turn")
-    public void itIsPlayerSTurn(int id)
+    public void itIsPlayerSTurn(int id) throws InterruptedException
     {
         game.currentPlayer = id-1;
         game.sendScore();
@@ -239,11 +239,12 @@ public class MyStepdefs
 
     }
 
-    @Then("the round is over with scores {int} {int} {int} {int}")
-    public void theRoundIsOverWithScores(int p1Score, int p2Score, int p3Score, int p4Score)
+    @Then("the game is over with scores {int} {int} {int} {int}")
+    public void theGameIsOverWithScores(int p1Score, int p2Score, int p3Score, int p4Score) throws InterruptedException
     {
         MainPage mainPage = userMainPages.get(0); // doesn't matter
-        assertTrue(mainPage.hasText("Round ended"));
+        Thread.sleep(100);
+        assertTrue(mainPage.hasText("Game over!"));
         assertTrue(mainPage.checkScores(p1Score,p2Score,p3Score,p4Score));
     }
 }
