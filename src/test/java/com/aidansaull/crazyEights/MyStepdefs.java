@@ -101,7 +101,7 @@ public class MyStepdefs
     {
         Character rank = cardString.charAt(0);
         Character suit = cardString.charAt(1);
-        game.discard.push(new Card(rank, suit));
+        game.discard.push(new Card(rank, suit, false));
         game.sendScore();
     }
 
@@ -109,7 +109,7 @@ public class MyStepdefs
     public void playerPlaysC(int id, String cardString)
     {
         MainPage mainPage = userMainPages.get(id-1);
-        mainPage.playCard(cardString);
+        assertTrue(mainPage.playCard(cardString));
     }
 
     @Then("current player is player {int}")
@@ -131,7 +131,7 @@ public class MyStepdefs
     {
         Character rank = cardString.charAt(0);
         Character suit = cardString.charAt(1);
-        game.players.get(id-1).addCard(new Card(rank, suit));
+        game.players.get(id-1).addCard(new Card(rank, suit, false));
     }
 
     @And("player {int} is notified that they missed their turn")
@@ -179,13 +179,13 @@ public class MyStepdefs
         player.emptyHand();
         for(String handString : handStrings.split(","))
         {
-            Card card = new Card(handString.charAt(0), handString.charAt(1));
+            Card card = new Card(handString.charAt(0), handString.charAt(1), false);
             player.addCard(card);
         }
     }
 
     @Then("player {int} must draw, gets {string}")
-    public void playerMustDraw(int id, String cardString)
+    public void playerMustDraw(int id, String cardString) throws InterruptedException
     {
         MainPage mainPage = userMainPages.get(id-1);
         Player player = game.players.get(id-1);
@@ -195,8 +195,17 @@ public class MyStepdefs
         List<Card> oldHand = new ArrayList<>();
         oldHand.addAll(player.hand);
         mainPage.draw();
-        player.hand = oldHand;
-        player.addCard(new Card(cardString.charAt(0), cardString.charAt(1)));
+        Thread.sleep(100); //wait for draw to occur
+        player.hand = new ArrayList<>();
+        boolean first = true;
+        for(Card card : oldHand)
+        {
+            card.resetHand = first;
+            player.addCard(card);
+            first = false;
+        }
+        player.addCard(new Card(cardString.charAt(0), cardString.charAt(1), false));
+        System.out.println("Hand is now " + player.hand);
     }
 
     @Then("player {int} must play {string}")
@@ -230,7 +239,7 @@ public class MyStepdefs
         oldHand.addAll(player.hand);
         mainPage.draw();
         player.hand = oldHand;
-        player.addCard(new Card(cardString.charAt(0), cardString.charAt(1)));
+        player.addCard(new Card(cardString.charAt(0), cardString.charAt(1), false));
     }
 
     @Then("player {int} must draw 2 cards, gets {string}")
@@ -246,5 +255,37 @@ public class MyStepdefs
         Thread.sleep(100);
         assertTrue(mainPage.hasText("Game over!"));
         assertTrue(mainPage.checkScores(p1Score,p2Score,p3Score,p4Score));
+    }
+
+    @Then("the round is over with scores {int} {int} {int} {int}")
+    public void theRoundIsOverWithScores(int p1Score, int p2Score, int p3Score, int p4Score) throws InterruptedException
+    {
+        MainPage mainPage = userMainPages.get(0); // doesn't matter
+        Thread.sleep(100);
+        assertTrue(mainPage.hasText("Round over!"));
+        assertTrue(mainPage.checkScores(p1Score,p2Score,p3Score,p4Score));
+    }
+
+    @And("player {int} selects suit {string}")
+    public void playerSelectsSuitD(int id, String suit)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        mainPage.selectSuit(suit);
+    }
+
+    @Then("player {int} shows hand {string}")
+    public void playerShowsHandDDTH(int id, String handString)
+    {
+        MainPage mainPage = userMainPages.get(id-1);
+        String[] cardStrings = handString.split(",");
+        for(String cardString : cardStrings)
+        {
+            if (cardString.charAt(0) == 'T')
+            {
+                cardString = "10" + cardString.charAt(1);
+            }
+            assertTrue(mainPage.hasText(cardString));
+        }
+        assertEquals(cardStrings.length, mainPage.getHandSize());
     }
 }
