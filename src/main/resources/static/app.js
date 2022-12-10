@@ -12,6 +12,12 @@ var gameOverBuffer = false;
 var roundOverBuffer = false;
 var lowestDeckSizeSeen = 52;
 
+function mod(x, y)
+{
+    // means that mod(0, 4) returns 3, not -1
+    return ((x % y) + y) % y;
+}
+
 function onload()
 {
     console.log("loaded")
@@ -174,7 +180,7 @@ function receiveScore(scoreJson)
     change = direction ? 1 : -1;
     console.log(direction)
     console.log(change)
-    nextPlayer = (currentPlayer + change)%4;
+    nextPlayer = mod((currentPlayer + change), 4);
 
     skippedMessage = "";
     if (scoreJson["skipped"] == username)
