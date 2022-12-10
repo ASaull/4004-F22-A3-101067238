@@ -4,6 +4,13 @@ import java.util.List;
 
 public class Score
 {
+    public String getWinner()
+    {
+        return winner;
+    }
+
+    private final String winner;
+
     public boolean isGameOver()
     {
         return gameOver;
@@ -49,7 +56,7 @@ public class Score
 
     private boolean reset;
 
-    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining, boolean reset, Integer skipped, boolean roundOver, boolean gameOver)
+    public Score(boolean direction, List<Integer> scores, Integer currentPlayer, Card topCard, Integer remaining, boolean reset, Integer skipped, boolean roundOver, boolean gameOver, String winner)
     {
         this.direction = direction;
         this.scores = scores;
@@ -60,6 +67,7 @@ public class Score
         this.skipped = skipped;
         this.roundOver = roundOver;
         this.gameOver = gameOver;
+        this.winner = winner;
     }
 
     public List<Integer> getScores()

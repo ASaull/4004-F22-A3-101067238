@@ -242,7 +242,7 @@ function receiveScore(scoreJson)
     // messaging game or round over
     if (gameOverBuffer)
     {
-        $('#game-status').text("Game over!")
+        $('#game-status').text("Game over! Player " + scoreJson["winner"] + " is the winner!")
     }
     else if (roundOverBuffer)
     {

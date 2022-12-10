@@ -115,8 +115,18 @@ public class Game
                 scores.add(player.score);
             }
         }
+        String winner = "";
+        if (gameOver)
+        {
+            int winnerScore = 1000; //gotta be high enough
+            for (Player player : players)
+            {
+                if (player.score < winnerScore)
+                    winner = player.username;
+            }
+        }
 
-        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset, skipped, roundOver, gameOver);
+        Score score = new Score(direction, scores, currentPlayer, discard.size()==0 ? null : discard.peek(), deck.size(), reset, skipped, roundOver, gameOver, winner);
         String destination = "/topic/score";
         simpMessagingTemplate.convertAndSend(destination, score);
 
