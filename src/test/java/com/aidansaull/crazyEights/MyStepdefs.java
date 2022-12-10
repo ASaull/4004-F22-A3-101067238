@@ -288,4 +288,11 @@ public class MyStepdefs
         }
         assertEquals(cardStrings.length, mainPage.getHandSize());
     }
+
+    @And("the game states that player {int} is the winner")
+    public void theGameStatesThatPlayerIsTheWinner(Integer id)
+    {
+        MainPage mainPage = userMainPages.get(0); // doesn't matter
+        assertTrue(mainPage.hasText("Player " + id.toString() + " is the winner!"));
+    }
 }

@@ -210,3 +210,4 @@ Feature: Multi-player game scoring
     And player 4 shows hand '5S,8D,KS,QS'
     When player 3 plays '5H'
     Then the game is over with scores 59 36 3 114
+    And the game states that player 3 is the winner
